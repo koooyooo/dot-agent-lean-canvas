@@ -83,17 +83,34 @@ cd dot-agent-lean-canvas
 
 clone 先を移動・削除するとリンクが切れます。更新は `git pull` で反映されます。
 
-> **注意**: `install.sh` のインストール先は `~/.agents/skills/` 配下です。Cursor と Codex はこのディレクトリを直接読み込むため、追加の設定は不要です。お使いのエージェントが別のディレクトリからスキルを読み込む場合は、利用中の環境に応じて配置先を変更するか、そのディレクトリからシンボリックリンクを貼ってください。例:
->
-> ```bash
-> # Claude Code（~/.claude/skills/）
-> mkdir -p ~/.claude/skills
-> ln -s ~/.agents/skills/docs-lean-canvas ~/.claude/skills/docs-lean-canvas
->
-> # Antigravity / Antigravity IDE / Antigravity CLI（~/.gemini/config/skills/）
-> mkdir -p ~/.gemini/config/skills
-> ln -s ~/.agents/skills/docs-lean-canvas ~/.gemini/config/skills/docs-lean-canvas
-> ```
+### エージェントごとの設定
+
+`install.sh` のインストール先は `~/.agents/skills/` 配下です。お使いのエージェントが別のディレクトリからスキルを読み込む場合は、利用中の環境に応じて配置先を変更するか、そのディレクトリからシンボリックリンクを貼ってください。
+
+#### Cursor / Codex
+
+`~/.agents/skills/` を直接読み込むため、追加の設定は不要です。
+
+#### Claude Code
+
+```bash
+mkdir -p ~/.claude/skills
+ln -s ~/.agents/skills/docs-lean-canvas ~/.claude/skills/docs-lean-canvas
+```
+
+#### Antigravity / Antigravity IDE / Antigravity CLI
+
+```bash
+mkdir -p ~/.gemini/config/skills
+ln -s ~/.agents/skills/docs-lean-canvas ~/.gemini/config/skills/docs-lean-canvas
+```
+
+#### Hermes Agent
+
+```bash
+mkdir -p ~/.hermes/skills/custom
+ln -s ~/.agents/skills/docs-lean-canvas ~/.hermes/skills/custom/docs-lean-canvas
+```
 
 ---
 

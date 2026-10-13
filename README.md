@@ -89,17 +89,34 @@ cd dot-agent-lean-canvas
 
 Moving or deleting the cloned directory breaks the symlink. To update the skill, just run `git pull`.
 
-> **Note**: `install.sh` installs the skill under `~/.agents/skills/`. Cursor and Codex load skills from this directory directly, so no extra setup is needed for them. If your agent loads skills from a different directory, either change the destination to match your environment or create a symlink from that directory. For example:
->
-> ```bash
-> # Claude Code (~/.claude/skills/)
-> mkdir -p ~/.claude/skills
-> ln -s ~/.agents/skills/docs-lean-canvas ~/.claude/skills/docs-lean-canvas
->
-> # Antigravity / Antigravity IDE / Antigravity CLI (~/.gemini/config/skills/)
-> mkdir -p ~/.gemini/config/skills
-> ln -s ~/.agents/skills/docs-lean-canvas ~/.gemini/config/skills/docs-lean-canvas
-> ```
+### Agent-Specific Setup
+
+`install.sh` installs the skill under `~/.agents/skills/`. If your agent loads skills from a different directory, either change the destination to match your environment or create a symlink from that directory.
+
+#### Cursor / Codex
+
+These agents load skills from `~/.agents/skills/` directly, so no extra setup is needed.
+
+#### Claude Code
+
+```bash
+mkdir -p ~/.claude/skills
+ln -s ~/.agents/skills/docs-lean-canvas ~/.claude/skills/docs-lean-canvas
+```
+
+#### Antigravity / Antigravity IDE / Antigravity CLI
+
+```bash
+mkdir -p ~/.gemini/config/skills
+ln -s ~/.agents/skills/docs-lean-canvas ~/.gemini/config/skills/docs-lean-canvas
+```
+
+#### Hermes Agent
+
+```bash
+mkdir -p ~/.hermes/skills/custom
+ln -s ~/.agents/skills/docs-lean-canvas ~/.hermes/skills/custom/docs-lean-canvas
+```
 
 ---
 
