@@ -81,7 +81,7 @@ Symlink the skill from this repository into `~/.agents/skills/docs-lean-canvas`:
 ./install.sh
 ```
 
-> **Note**: `install.sh` installs the skill under `~/.agents/skills/`. If your agent loads skills from a different directory, either change the destination to match your environment or create a symlink from that directory. For example, for Claude Code (`~/.claude/skills/`):
+> **Note**: `install.sh` installs the skill under `~/.agents/skills/`. Cursor, Codex, and Gemini CLI load skills from this directory directly, so no extra setup is needed for them. If your agent loads skills from a different directory, either change the destination to match your environment or create a symlink from that directory. For example, for Claude Code (`~/.claude/skills/`):
 >
 > ```bash
 > mkdir -p ~/.claude/skills
