@@ -1,9 +1,17 @@
+![logo](./logo.jpg)
+
 # dot-agent-lean-canvas
 
 [English](README.md) | **日本語**
 
 AI エージェント向けの Lean Canvas（リーンキャンバス）作成・レビュー用スキルです。
 YAML を正本として管理し、外部 CSS やプラグインに依存しない自己完結した HTML テーブル（インライン style 展開済み）を含む Markdown を生成します。
+
+---
+
+![リーンキャンバス出力例（YouTube ケーススタディ）](sample_output.png)
+
+> **免責事項**: 上記のリーンキャンバスは、出力フォーマットの例示および学習目的のために、公開情報をもとに作成した YouTube の後追いケーススタディです。YouTube または Google LLC による公式な文書・開示資料ではありません。記載されている製品名・ロゴ・ブランド等は各権利者に帰属します。
 
 ---
 
@@ -30,6 +38,10 @@ YAML を正本として管理し、外部 CSS やプラグインに依存しな�
 ```text
 .
 ├── install.sh                  # ~/.agents/skills/ へのシンボリックリンク作成スクリプト
+├── sample_output.png           # リーンキャンバス出力例のプレビュー画像
+├── README.md                   # 英語ドキュメント
+├── README_ja.md                # 日本語ドキュメント（本ファイル）
+├── LICENSE                     # CC BY-NC 4.0 ライセンス
 └── skills/
     └── docs-lean-canvas/
         ├── SKILL.md            # エージェント用指示書（スキル定義）

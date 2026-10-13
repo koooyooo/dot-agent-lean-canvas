@@ -1,3 +1,5 @@
+![logo](./logo.jpg)
+
 # dot-agent-lean-canvas
 
 **English** | [日本語 (Japanese)](README_ja.md)
@@ -7,14 +9,22 @@ It treats YAML as the single source of truth and generates self-contained Markdo
 
 ---
 
+![Sample Lean Canvas Output (YouTube Case Study)](sample_output.png)
+
+> **Disclaimer**: This Lean Canvas is a retrospective case study created for educational and demonstration purposes based on publicly available information. It is not an official document, endorsement, or business disclosure by YouTube or Google LLC. All product names, logos, and brands are property of their respective owners.
+
+---
+
+
+
 ## Key Features
 
 - **Agent-Driven Lean Canvas Creation**:
   - Organizes hypotheses through conversational dialogue or source documents, structuring problems, customer segments, UVP, channels, revenue streams, and cost structures.
   - Decouples map completeness (`status_canvas`) from personal commitment/investment decisions (`status_decision`).
 - **Dual Review Perspectives**:
-  - **Personal Review (`review_personal`)**: Detects common logical pitfalls (solutions ahead of problems, missing alternatives, lack of early adopters, etc.).
-  - **Investor View (`review_investor`)**: Evaluates market viability, traction hypotheses, defensibility moats, and fragile assumptions from an external venture capital perspective.
+  - **Personal Review (**`review_personal`**)**: Detects common logical pitfalls (solutions ahead of problems, missing alternatives, lack of early adopters, etc.).
+  - **Investor View (**`review_investor`**)**: Evaluates market viability, traction hypotheses, defensibility moats, and fragile assumptions from an external venture capital perspective.
 - **Portable Markdown Tables**:
   - Preserves the canonical 5-column Lean Canvas layout (Problem & Customer on outer columns, UVP in the center).
   - Inlines CSS properties directly into element `style` attributes to ensure consistent rendering across Markdown viewers like GitHub, Obsidian, VS Code, and Typora.
@@ -25,11 +35,14 @@ It treats YAML as the single source of truth and generates self-contained Markdo
 
 ---
 
+
+
 ## Directory Structure
 
 ```text
 .
 ├── install.sh                  # Symlink installation script for ~/.agents/skills/
+├── sample_output.png           # Example Lean Canvas preview image
 ├── README.md                   # English documentation (this file)
 ├── README_ja.md                # Japanese documentation
 ├── LICENSE                     # CC BY-NC 4.0 License
@@ -54,6 +67,8 @@ It treats YAML as the single source of truth and generates self-contained Markdo
 
 ---
 
+
+
 ## Installation
 
 Symlink the skill from this repository into `~/.agents/skills/docs-lean-canvas`:
@@ -68,7 +83,11 @@ Symlink the skill from this repository into `~/.agents/skills/docs-lean-canvas`:
 
 ---
 
+
+
 ## Usage
+
+
 
 ### 1. Using with AI Agents (Cursor, Antigravity, etc.)
 
@@ -79,12 +98,15 @@ Prompt your AI agent:
 The agent follows `skills/docs-lean-canvas/SKILL.md` to interactively build `{slug}.lean-canvas.yaml`, and automatically executes `render.py` to output `{slug}.lean-canvas.md`.
 
 #### Output Directory Configuration
+
 - **Explicit Prompt Priority**: If a path is specified in your prompt (e.g., `Save to docs/ideas/`), that destination is always prioritized.
-- **Environment Variable (`LEAN_CANVAS_OUTPUT_DIR`)**: If you prefer saving all canvases in a fixed location (e.g. inside an Obsidian vault), set the environment variable:
+- **Environment Variable (**`LEAN_CANVAS_OUTPUT_DIR`**)**: If you prefer saving all canvases in a fixed location (e.g. inside an Obsidian vault), set the environment variable:
   ```bash
   export LEAN_CANVAS_OUTPUT_DIR="$HOME/ObsidianVault/business/idea"
   ```
 - **Interactive Prompt**: If neither is set, the agent will ask you where to save the files (defaulting to the current working directory).
+
+
 
 ### 2. Manual CLI Markdown Generation
 
@@ -103,6 +125,8 @@ python3 skills/docs-lean-canvas/scripts/render.py path/to/my-product.lean-canvas
 
 ---
 
+
+
 ## Running Tests
 
 Run the test suite using Python's built-in `unittest`:
@@ -112,6 +136,8 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s skills/docs-lean-canva
 ```
 
 ---
+
+
 
 ## License
 
