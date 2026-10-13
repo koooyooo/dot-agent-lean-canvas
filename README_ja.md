@@ -65,6 +65,8 @@ YAML を正本として管理し、外部 CSS やプラグインに依存しな�
 
 ## インストール
 
+`install.sh` は macOS / Linux を前提としています。Windows では WSL 上で実行してください。
+
 本リポジトリのスキルを `~/.agents/skills/docs-lean-canvas` へシンボリックリンクします。
 
 ```bash

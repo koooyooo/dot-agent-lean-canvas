@@ -71,6 +71,8 @@ It treats YAML as the single source of truth and generates self-contained Markdo
 
 ## Installation
 
+`install.sh` assumes macOS / Linux. On Windows, run it under WSL.
+
 Symlink the skill from this repository into `~/.agents/skills/docs-lean-canvas`:
 
 ```bash
