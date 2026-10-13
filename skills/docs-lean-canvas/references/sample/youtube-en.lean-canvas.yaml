@@ -1,0 +1,81 @@
+meta:
+  project_name: "YouTube"
+  author: "Case Study Sample (Retrospective analysis from public data. Not an official document)"
+  iteration: "v1.0"
+  last_updated: "2026-09-08"
+  lang: "en"
+  canvas_type: "PostHoc"
+  status_canvas: "-"
+  status_decision: "-"
+
+canvas:
+
+  # 1. Problem
+  problem:
+    top_3_problems:
+      - "People want to watch videos on demand, but are constrained by broadcast schedules or physical rentals"
+      - "Creators want to publish their videos, but video hosting, encoding, and sharing are prohibitively heavy"
+      - "Advertisers want targeted exposure near engaged audiences without TV-level costs"
+    existing_alternatives:
+      - "Broadcast TV, DVD rentals (Blockbuster, Netflix mail-order)"
+      - "Self-hosted servers, peer-to-peer file sharing, Google Video, Vimeo"
+      - "TV commercials, display banners, search ads"
+
+  # 2. Solution
+  solution:
+    top_3_features:
+      - "Instant in-browser streaming for any searched video"
+      - "Frictionless video upload and public hosting with a free account"
+      - "Contextual video ad placements with creator revenue sharing"
+
+  # 3. Customer Segments
+  customer_segments:
+    target_customers:
+      - "Viewers seeking on-demand video entertainment and knowledge (Users)"
+      - "Video creators and media looking for an audience and distribution (Supply)"
+      - "Advertisers looking to buy audience attention (Paying Customers)"
+    early_adopters:
+      - "Internet-savvy individuals wanting to share short video clips more easily than via email or message boards"
+
+  # 4. Unique Value Proposition
+  unique_value_proposition:
+    headline: "Find and watch any video you want, instantly"
+    high_level_concept: "Flickr for video (Anyone can upload, anyone can watch)"
+
+  # 5. Key Metrics
+  key_metrics:
+    acquisition: "New viewers (including logged-out), new creator signups"
+    activation: "First video playback completion or first video upload"
+    retention: "Watch time, repeat visits, sustained creator upload cadence"
+
+  # 6. Channels
+  channels:
+    inbound_and_outbound:
+      - "Embeds on blogs/websites, URL sharing, search, related video recommendations"
+      - "Google search integration and ecosystem properties; word-of-mouth"
+
+  # 7. Unfair Advantage
+  unfair_advantage:
+    defensibility: "Network effect of an indexed video catalog pairing viewers and creators; distribution via Google; vast viewer watch-time data and creator fanbase moats"
+
+  # 8. Cost Structure
+  cost_structure:
+    fixed_costs:
+      - "Product development, infrastructure, content moderation, general & administrative"
+    variable_costs:
+      - "CDN streaming bandwidth, storage, ad-serving infrastructure, creator revenue payouts"
+
+  # 9. Revenue Streams
+  revenue_streams:
+    monetization_model: "Video advertising (selling viewer attention to advertisers; later Premium subscription)"
+    pricing: "Ad pricing based on CPM / CPV varies widely by campaign. No flat public price"
+    lifetime_value_estimate: "Undecided. No public LTV figure. Derived backwards from advertiser spend and creator inventory"
+
+review_personal:
+  - "This is a post-hoc retrospective of an existing service, reconstructing boxes from actual outcomes rather than initial hypothesis validation. status_canvas and status_decision are set to '-'. Do not equate historical success with an automatic 'Go' today."
+  - "Pricing and LTV figures are public estimates or undecided. Do not use as official business disclosures."
+  - "Viewers are users, creators are supply, and advertisers are paying customers (multi-sided platform). Omitting viewers erases distribution; omitting advertisers eliminates revenue; omitting creators turns the platform into a pure ad network."
+  - "Later developments (Shorts, Premium, YouTube TV) are excluded to focus on the core bet: UGC video streaming plus advertising."
+
+review_investor:
+  - "Educational retrospective; not the primary focus of this column. Do not project post-IPO scale or current market capitalization onto early-stage angel/seed investment criteria."

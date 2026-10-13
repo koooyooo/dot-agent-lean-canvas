@@ -1,0 +1,77 @@
+/* Override GitHub / VS Code markdown `table { display:block }` which breaks rowspan. */
+.lc, .lc-review {
+  display: table !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  table-layout: fixed !important;
+  overflow: visible !important;
+  border-collapse: collapse;
+  margin: 0 0 1em;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  /* Template newlines are formatting, not editor pre-wrap/pre-line content. */
+  white-space: normal;
+  color: #272a2e;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+.lc td, .lc div, .lc ul, .lc li, .lc b,
+.lc-review td, .lc-review ul, .lc-review li { color: #272a2e; }
+.lc td, .lc-review td {
+  border: 1px solid #7a736b;
+  vertical-align: top !important;
+  padding: 0 !important;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  min-width: 0;
+}
+.lc-h {
+  font-weight: 700;
+  font-size: 12px;
+  padding: 6px 8px;
+  border-bottom: 1px solid #7a736b;
+}
+.lc-b { padding: 8px; }
+.lc-b ul, .lc-review ul {
+  margin: 0.1em 0 0;
+  padding-left: 1.15em;
+}
+.lc-b li, .lc-review li { margin: 0.12em 0; }
+.lc-sub {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed #0003;
+}
+.lc-sub ul { margin-top: 0.25em; }
+
+.lc-problem { background: #f7edea; }
+.lc-problem .lc-h { background: #ead4cf; }
+.lc-solution { background: #f6eee4; }
+.lc-solution .lc-h { background: #e9d5bf; }
+.lc-metrics { background: #f4ede0; }
+.lc-metrics .lc-h { background: #e5d5bb; }
+.lc-uvp { background: #f7f1dd; }
+.lc-uvp .lc-h { background: #e9dba8; }
+.lc-unfair { background: #e8f0eb; }
+.lc-unfair .lc-h { background: #ceded5; }
+.lc-channels { background: #e6eff2; }
+.lc-channels .lc-h { background: #cadce0; }
+.lc-customer { background: #e8eef4; }
+.lc-customer .lc-h { background: #cedae8; }
+.lc-cost { background: #f0edf0; }
+.lc-cost .lc-h { background: #d9d3d9; }
+.lc-revenue { background: #e9f0ea; }
+.lc-revenue .lc-h { background: #ceded2; }
+
+.lc-review { margin-top: 12px; }
+.lc-review td:first-child {
+  width: 7.5em;
+  font-weight: 700;
+  background: #e2dcd2;
+  padding: 8px !important;
+}
+.lc-review td:last-child {
+  background: #f5f2ee;
+  padding: 8px !important;
+}

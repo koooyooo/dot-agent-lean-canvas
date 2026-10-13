@@ -1,0 +1,80 @@
+meta:
+  project_name: "OpenAI"
+  author: "教材サンプル（公開情報からの後追い。公式資料ではない）"
+  iteration: "v1.0"
+  last_updated: "2026-09-08"
+  canvas_type: "PostHoc"
+  status_canvas: "-"
+  status_decision: "-"
+
+canvas:
+
+  # 1. 課題（Problem）[左端・上下]
+  problem:
+    top_3_problems:
+      - "文章・コード・調査が要るが、専門家に頼むのも、検索して自分でまとめるのも重い"
+      - "プロダクトに言語の知能を載せたいが、基盤モデルの学習も運用も自前では届かない"
+      - "企業は使いたいが、品質・権限・データの扱いが保証されないと業務に載せられない"
+    existing_alternatives:
+      - "検索、Wikipedia、Stack Overflow、社内Wiki、外注のライター / エンジニア"
+      - "自前のNLP、オープンな重み、他社のクラウドAI API"
+      - "使わない、シャドーITの個人アカウント、専用の業務SaaS"
+
+  # 2. ソリューション（Solution）[中左・上]
+  solution:
+    top_3_features:
+      - "チャットで頼めば、下書き・説明・コードがすぐ返る"
+      - "同じ系統のモデルを、APIのトークン課金で自分のアプリに埋め込める"
+      - "有料プランと法人向けで、上限・管理・データ取り扱いを業務向けに揃えられる"
+
+  # 3. 顧客セグメント（Customer Segments）[右端・上下]
+  customer_segments:
+    target_customers:
+      - "調べて書いて作りたい個人（ユーザー。Plus では払う顧客でもある）"
+      - "アプリに知能を載せたい開発者・スタートアップ（APIの払う顧客）"
+      - "全社で使わせたい企業のIT / 事業部門（法人契約の払う顧客）"
+    early_adopters:
+      - "GPT-3 API のウェイティングリストに並んだ開発者。その後、ChatGPT を先に触ったテック慣れした個人"
+
+  # 4. 独自の価値提案（Unique Value Proposition - UVP）[中央・上下]
+  unique_value_proposition:
+    headline: "聞いて、すぐ使える知能がある"
+    high_level_concept: "言語の電力会社（コンセントにつなげば、対話も埋め込みもできる汎用モデル）"
+
+  # 5. 主要指標（Key Metrics）[中左・下]
+  key_metrics:
+    acquisition: "ChatGPT の新規登録、API の新規キー / 新規有料契約"
+    activation: "初めて役に立つ返答を得た（チャット完了、または API の本番リクエスト）"
+    retention: "週次の利用、Plus / API の継続課金、法人シートの更新"
+
+  # 6. チャネル（Channels）[中右・下]
+  channels:
+    inbound_and_outbound:
+      - "プロダクトそのものの拡散（ChatGPT）、開発者向けドキュメントと API"
+      - "口コミ、X、研究ブログ、Microsoft のクラウドと GitHub 経由の到達"
+
+  # 7. 圧倒的な優位性（Unfair Advantage）[中右・上]
+  unfair_advantage:
+    defensibility: "学習と推論の規模、ChatGPT から入る利用データとブランド。Microsoft 経由の計算資源と資本。後発は同じ前計算を買い直せない"
+
+  # 8. コスト構造（Cost Structure）[底左]
+  cost_structure:
+    fixed_costs:
+      - "研究、プロダクト、安全・信頼性、本社人件費"
+    variable_costs:
+      - "学習と推論の計算、帯域、企業サポート、パートナー分配"
+
+  # 9. 収益の流れ（Revenue Streams）[底右]
+  revenue_streams:
+    monetization_model: "ChatGPT のサブスクと法人、API のトークン従量。後年は周辺プロダクトも"
+    pricing: "Plus は月額約 $20 前後の公開価格。API はモデルとトークン単価が公開され、時期で変わる。法人は非公開が多い"
+    lifetime_value_estimate: "未決。公開LTVはない。個人サブスクと API の従量を混ぜると一人あたりの意味が消える"
+
+review_personal:
+  - "既存サービスの後追いである。初期の仮説検証ではなく、結果からマスを埋めている。status_canvas / status_decision は -。当時の成功を今の Go にしない"
+  - "核は ChatGPT と API（言語の知能を使う / 埋め込む）。非営利の研究ラボとして始まった約束や、後年の動画・エージェント・ハードは含めない"
+  - "困る人（個人・開発者のユーザー）と払う人（Plus、API、法人）を分けた。無料利用者だけ書くと収益が消える。APIだけ書くとプロダクトが開発者基盤になる"
+  - "数値（Plus価格、LTV）は公開情報の近似または未決。公式の事業資料として使わない"
+
+review_investor:
+  - "教材の後追いであり、この欄の主にしない。後年の時価や調達額を当時の投資判断にしない"

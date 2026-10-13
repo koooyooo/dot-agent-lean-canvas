@@ -1,0 +1,80 @@
+meta:
+  project_name: "YouTube"
+  author: "教材サンプル（公開情報からの後追い。公式資料ではない）"
+  iteration: "v1.0"
+  last_updated: "2026-09-08"
+  canvas_type: "PostHoc"
+  status_canvas: "-"
+  status_decision: "-"
+
+canvas:
+
+  # 1. 課題（Problem）[左端・上下]
+  problem:
+    top_3_problems:
+      - "見たい映像があるが、放送時刻やレンタルに縛られ、すぐ観られない"
+      - "自分の映像を公開したいが、ホスティングもエンコードも共有も重い"
+      - "広告主は、テレビほど高くなく、興味のある人の近くに出したい"
+    existing_alternatives:
+      - "テレビ、レンタルビデオ / DVD"
+      - "自前サーバ、ファイル共有、Google Video、Vimeo"
+      - "テレビCM、バナー広告、検索連動広告"
+
+  # 2. ソリューション（Solution）[中左・上]
+  solution:
+    top_3_features:
+      - "ブラウザで、探した動画をすぐ再生できる"
+      - "アカウントがあれば、誰でも動画を上げて公開できる"
+      - "視聴の横に広告を出し、投稿者と分配できる"
+
+  # 3. 顧客セグメント（Customer Segments）[右端・上下]
+  customer_segments:
+    target_customers:
+      - "動画を観たい個人（視聴者。ユーザー）"
+      - "動画を上げて見てもらいたい個人・媒体（投稿者。供給）"
+      - "その注意を買いたい広告主（払う顧客）"
+    early_adopters:
+      - "短いクリップをメールや掲示板より楽に共有したい、ネット慣れした個人"
+
+  # 4. 独自の価値提案（Unique Value Proposition - UVP）[中央・上下]
+  unique_value_proposition:
+    headline: "見たい映像が、今すぐ見つかって、今すぐ観られる"
+    high_level_concept: "動画版 Flickr（誰でも上げて、誰でも見られる動画共有）"
+
+  # 5. 主要指標（Key Metrics）[中左・下]
+  key_metrics:
+    acquisition: "新規視聴（未ログイン含む）、新規投稿アカウント"
+    activation: "初回の再生完了、または初投稿"
+    retention: "視聴時間、再訪、投稿の継続。後年はウォッチタイムが核"
+
+  # 6. チャネル（Channels）[中右・下]
+  channels:
+    inbound_and_outbound:
+      - "埋め込み、URL共有、検索、関連動画"
+      - "Google 検索とプロパティ。口コミ"
+
+  # 7. 圧倒的な優位性（Unfair Advantage）[中右・上]
+  unfair_advantage:
+    defensibility: "視聴・投稿・索引が揃ったカタログのネットワーク効果。Google 経由の到達。蓄積した視聴データと投稿者のファンベース"
+
+  # 8. コスト構造（Cost Structure）[底左]
+  cost_structure:
+    fixed_costs:
+      - "プロダクト、インフラ、モデレーション、本社人件費"
+    variable_costs:
+      - "配信帯域、ストレージ、広告配信、投稿者への収益分配"
+
+  # 9. 収益の流れ（Revenue Streams）[底右]
+  revenue_streams:
+    monetization_model: "広告（視聴の注意を広告主に売る。後年は Premium も）"
+    pricing: "広告単価は CPM / 視聴単価で案件により大きく異なる。公開の一律価格はない"
+    lifetime_value_estimate: "未決。公開LTVはない。視聴者一人ではなく、広告主の出稿と投稿者の在庫で逆算する"
+
+review_personal:
+  - "既存サービスの後追いである。初期の仮説検証ではなく、結果からマスを埋めている。status_canvas / status_decision は -。当時の成功を今の Go にしない"
+  - "数値（広告単価、LTV）は公開情報の近似または未決。公式の事業資料として使わない"
+  - "視聴者はユーザー、投稿者は供給、広告主が払う顧客。視聴者だけ書くと収益が消える。広告主だけ書くとプロダクトが広告枠になる"
+  - "後年の Shorts、Premium、TV はこのキャンバスの核（UGC動画と広告）には含めない"
+
+review_investor:
+  - "教材の後追いであり、この欄の主にしない。後年の規模や時価を当時の投資判断にしない"

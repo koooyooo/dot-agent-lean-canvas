@@ -1,0 +1,79 @@
+meta:
+  project_name: "LinkedIn"
+  author: "教材サンプル（公開情報からの後追い。公式資料ではない）"
+  iteration: "v1.0"
+  last_updated: "2026-09-08"
+  canvas_type: "PostHoc"
+  status_canvas: "-"
+  status_decision: "-"
+
+canvas:
+
+  # 1. 課題（Problem）[左端・上下]
+  problem:
+    top_3_problems:
+      - "仕事の信用と人脈が、名刺と履歴書に散らばり、更新されない"
+      - "次の仕事を探したいが、求人票と知人紹介だけでは届かない"
+      - "採用したい側は、動いていない候補者に、求人媒体だけでは届かない"
+    existing_alternatives:
+      - "名刺、履歴書、同窓会名簿、会社のディレクトリ"
+      - "求人サイト（Monster 等）、人材紹介、社員紹介"
+      - "Facebook 等の私的なSNSで仕事の話をする"
+
+  # 2. ソリューション（Solution）[中左・上]
+  solution:
+    top_3_features:
+      - "実名の職歴プロフィールを公開し、つながりを可視化できる"
+      - "求人と、人づての紹介が、同じグラフの上で届く"
+      - "採用側は、プロフィールを検索し、動いていない人にも接触できる"
+
+  # 3. 顧客セグメント（Customer Segments）[右端・上下]
+  customer_segments:
+    target_customers:
+      - "仕事の顔を持ちたい働く個人（会員。ユーザーであり Premium の顧客でもある）"
+      - "採用する企業の人事・採用担当、人材紹介（主に払う顧客）"
+    early_adopters:
+      - "シリコンバレー周辺のテック職。転職が多く、人脈が仕事そのものになる人"
+
+  # 4. 独自の価値提案（Unique Value Proposition - UVP）[中央・上下]
+  unique_value_proposition:
+    headline: "仕事の信用と、次の機会が、ここに揃っている"
+    high_level_concept: "仕事版 Facebook（生きている名刺帳 / 職歴のグラフ）"
+
+  # 5. 主要指標（Key Metrics）[中左・下]
+  key_metrics:
+    acquisition: "新規会員登録、採用側の新規契約"
+    activation: "プロフィールの職歴入力、最初のつながり、または求人への接触"
+    retention: "MAU、プロフィール更新、採用シートの継続利用"
+
+  # 6. チャネル（Channels）[中右・下]
+  channels:
+    inbound_and_outbound:
+      - "招待、メール、同僚の口コミ"
+      - "SEO（実名検索）、採用イベント、後年は Microsoft の到達"
+
+  # 7. 圧倒的な優位性（Unfair Advantage）[中右・上]
+  unfair_advantage:
+    defensibility: "実名の職歴グラフ（つながりと履歴はコピーしにくい）。採用ワークフローがシートに載ると乗り換えコストになる"
+
+  # 8. コスト構造（Cost Structure）[底左]
+  cost_structure:
+    fixed_costs:
+      - "プロダクト開発、インフラ、信頼・なりすまし対策、本社人件費"
+    variable_costs:
+      - "広告配信、営業、カスタマーサポート、クラウド従量"
+
+  # 9. 収益の流れ（Revenue Streams）[底右]
+  revenue_streams:
+    monetization_model: "採用プロダクト（Recruiter / 求人）が主。広告、会員 Premium が続く"
+    pricing: "採用シートは年額で高額（公開の定価は時期により異なる）。Premium は月額サブスク。いずれも公開LTVはない"
+    lifetime_value_estimate: "未決。会員一人の広告価値より、採用契約の継続が核。公開値はない"
+
+review_personal:
+  - "既存サービスの後追いである。初期の仮説検証ではなく、結果からマスを埋めている。status_canvas / status_decision は -。当時の成功を今の Go にしない"
+  - "数値（採用シート価格、LTV）は公開情報の近似または未決。公式の事業資料として使わない"
+  - "会員はユーザーで、採用側が主に払う。会員だけ書くと収益が Premium に偏る。採用だけ書くとプロダクトが履歴書DBになる"
+  - "後年の Learning や Sales Navigator、Microsoft 買収後の統合はこのキャンバスの核（職歴グラフと採用）には含めない"
+
+review_investor:
+  - "教材の後追いであり、この欄の主にしない。後年の規模や時価を当時の投資判断にしない"

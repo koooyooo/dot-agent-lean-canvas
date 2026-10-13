@@ -1,0 +1,79 @@
+meta:
+  project_name: "[プロダクト / サービス名]"
+  author: "[作成者名]"
+  iteration: "v1.0"
+  last_updated: "YYYY-MM-DD"
+  # 言語（ja | en。未指定なら ja。en にすると英語テンプレートと英語ラベルで出力）
+  lang: "ja"
+  # New: 今やるかを決める地図。PostHoc: 既存の結果からの再構成（教材・分解）
+  canvas_type: "New | PostHoc"
+  # 地図として読めるか。やるかではない。このファイルで運用しないときは -
+  status_canvas: "Draft | Building | Done | -"
+  # その地図を見て今やるか。検証済みフラグではない。賭けない PostHoc は -
+  status_decision: "Undecided | Go | NoGo | Parked | -"
+
+canvas:
+
+  # 1. 課題（Problem）[左端・上下]
+  problem:
+    top_3_problems:
+      - "最優先で解決すべきユーザーの課題 1"
+      - "課題 2"
+      - "課題 3"
+    existing_alternatives:
+      - "現在ユーザーが使っている代替手段（競合サービス、Excel、手作業など）"
+
+  # 2. ソリューション（Solution）[中左・上]
+  solution:
+    top_3_features:
+      - "課題1を直接解決する機能 / 仕組み"
+      - "課題2を解決する機能"
+      - "課題3を解決する機能"
+
+  # 3. 顧客セグメント（Customer Segments）[右端・上下]
+  customer_segments:
+    target_customers:
+      - "対象となる主要な顧客グループ・属性"
+    early_adopters:
+      - "課題意識が最も高く、最初に飛びついてくれる理想の初期ユーザー像"
+
+  # 4. 独自の価値提案（Unique Value Proposition - UVP）[中央・上下]
+  unique_value_proposition:
+    headline: "なぜこのプロダクトを選ぶべきなのかを一言で表すメッセージ"
+    high_level_concept: "一言で例えると何か（例: 「X のための Uber」「完全ローカルで動く Notion」）"
+
+  # 5. 主要指標（Key Metrics）[中左・下]
+  key_metrics:
+    acquisition: "初期の集客・サインアップ指標"
+    activation: "「価値を実感した」と判定するアクション（Aha Moment）"
+    retention: "継続利用率（翌日・翌週・翌月の利用維持）"
+
+  # 6. チャネル（Channels）[中右・下]
+  channels:
+    inbound_and_outbound:
+      - "ユーザーと出会う経路（SNS、技術ブログ、GitHub、コミュニティ、SEO、口コミなど）"
+
+  # 7. 圧倒的な優位性（Unfair Advantage）[中右・上]
+  unfair_advantage:
+    defensibility: "簡単には真似・買収できない強み（独自のドメイン知識、固有アルゴリズム、強固なコミュニティ、先行者優位など）"
+
+  # 8. コスト構造（Cost Structure）[底左]
+  cost_structure:
+    fixed_costs:
+      - "固定費（サーバー代、ドメイン代、外部SaaS利用料など）"
+    variable_costs:
+      - "変動費（LLM API利用料、決済手数料、トラフィック従量費など）"
+
+  # 9. 収益の流れ（Revenue Streams）[底右]
+  revenue_streams:
+    monetization_model: "課金形態（サブスクリプション、買い切り、フリーミアム、API従量課金、広告など）"
+    pricing: "想定価格帯（例: 月額 $10 / 年額 $100）"
+    lifetime_value_estimate: "想定 LTV（または1ユーザーあたりの期待収益）"
+
+# 表の「レビュー」。よくある崩れは SKILL.md。チェック欄は作らない
+review_personal:
+  - "コメント1"
+
+# 表の「投資家視点」。書く前に references/review-investor.md を読む
+review_investor:
+  - "コメント1"
