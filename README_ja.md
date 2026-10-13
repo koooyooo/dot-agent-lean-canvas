@@ -75,6 +75,13 @@ YAML を正本として管理し、外部 CSS やプラグインに依存しな�
 ./install.sh
 ```
 
+> **注意**: `install.sh` のインストール先は `~/.agents/skills/` 配下です。お使いのエージェントが別のディレクトリからスキルを読み込む場合は、利用中の環境に応じて配置先を変更するか、そのディレクトリからシンボリックリンクを貼ってください。例えば Claude Code（`~/.claude/skills/`）の場合:
+>
+> ```bash
+> mkdir -p ~/.claude/skills
+> ln -s ~/.agents/skills/docs-lean-canvas ~/.claude/skills/docs-lean-canvas
+> ```
+
 ---
 
 ## 使い方
