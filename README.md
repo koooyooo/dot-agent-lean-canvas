@@ -1,106 +1,111 @@
 # dot-agent-lean-canvas
 
-AI エージェント向けの Lean Canvas（リーンキャンバス）作成・レビュー用スキルです。
-YAML を正本として管理し、外部 CSS やプラグインに依存しない自己完結した HTML テーブル（インライン style 展開済み）を含む Markdown を生成します。
+**English** | [日本語 (Japanese)](README_ja.md)
+
+An AI agent skill for creating and reviewing Lean Canvases.
+It treats YAML as the single source of truth and generates self-contained Markdown documents featuring HTML tables with inlined CSS styles—requiring no external CSS dependencies or special plugins.
 
 ---
 
-## 特徴
+## Key Features
 
-- **エージェント駆動のリーンキャンバス作成**:
-  - 対話や資料から仮説を埋め、ビジネスモデルの構造（課題・顧客・UVP・チャネル・収益等）を整理。
-  - 地図の完成度（`status_canvas`）と本人の実行判断（`status_decision`）を分離して管理。
-- **二重のレビュー視点**:
-  - **自己レビュー（`review_personal`）**: よくある論理崩れ（課題なきソリューション、代替の欠如など）の点検。
-  - **投資家視点（`review_investor`）**: 外部資本の観点から市場性やトラクション仮説、脆いポイントを点検。
-- **ポータブルな Markdown 出力**:
-  - 公式の 5 列構成（課題・顧客が両端、UVP が中央）を維持。
-  - GitHub、Obsidian、VS Code、Typora などの Markdown ビューアーで崩れず表示できるよう、CSS プロパティをインライン展開。
-- **外部依存ゼロ**:
-  - Python 3 の標準ライブラリのみで動作（サードパーティ製パッケージのインストール不要）。
-- **日英バイリンガル対応**:
-  - 日本語（`lang: ja`）および英語（`lang: en`）の出力に対応。
+- **Agent-Driven Lean Canvas Creation**:
+  - Organizes hypotheses through conversational dialogue or source documents, structuring problems, customer segments, UVP, channels, revenue streams, and cost structures.
+  - Decouples map completeness (`status_canvas`) from personal commitment/investment decisions (`status_decision`).
+- **Dual Review Perspectives**:
+  - **Personal Review (`review_personal`)**: Detects common logical pitfalls (solutions ahead of problems, missing alternatives, lack of early adopters, etc.).
+  - **Investor View (`review_investor`)**: Evaluates market viability, traction hypotheses, defensibility moats, and fragile assumptions from an external venture capital perspective.
+- **Portable Markdown Tables**:
+  - Preserves the canonical 5-column Lean Canvas layout (Problem & Customer on outer columns, UVP in the center).
+  - Inlines CSS properties directly into element `style` attributes to ensure consistent rendering across Markdown viewers like GitHub, Obsidian, VS Code, and Typora.
+- **Zero External Dependencies**:
+  - Runs out of the box using only the Python 3 standard library (no third-party package installation required).
+- **Bilingual Support**:
+  - Supports both English (`lang: en`) and Japanese (`lang: ja`) outputs and templates.
 
 ---
 
-## ディレクトリ構成
+## Directory Structure
 
 ```text
 .
-├── install.sh                  # ~/.agents/skills/ へのシンボリックリンク作成スクリプト
+├── install.sh                  # Symlink installation script for ~/.agents/skills/
+├── README.md                   # English documentation (this file)
+├── README_ja.md                # Japanese documentation
+├── LICENSE                     # CC BY-NC 4.0 License
 └── skills/
     └── docs-lean-canvas/
-        ├── SKILL.md            # エージェント用指示書（スキル定義）
+        ├── SKILL.md            # Agent skill instructions
         ├── assets/
-        │   ├── template.yaml   # リーンキャンバス YAML テンプレート
-        │   ├── template.md     # 表骨格テンプレート（日本語）
-        │   ├── template_en.md  # 表骨格テンプレート（英語）
-        │   └── lean-canvas.css # スタイリング定義（生成時にインライン化）
+        │   ├── template.yaml   # Lean Canvas YAML schema & template
+        │   ├── template.md     # Table HTML skeleton (Japanese)
+        │   ├── template_en.md  # Table HTML skeleton (English)
+        │   └── lean-canvas.css # CSS styling (inlined into Markdown during generation)
         ├── references/
-        │   ├── review-investor.md  # 投資家視点のレビュー基準
-        │   └── sample/         # 後追いサンプル（メルカリ、OpenAI、LinkedIn、YouTube）
+        │   ├── review-investor.md  # Investor review guidelines & criteria
+        │   └── sample/         # Retrospective case studies (Mercari, OpenAI, LinkedIn, YouTube)
         ├── scripts/
-        │   ├── render.py       # YAML -> Markdown 変換スクリプト
-        │   └── inline_css.py   # CSS インライン展開器
+        │   ├── render.py       # YAML -> Markdown table renderer
+        │   └── inline_css.py   # Zero-dependency CSS inliner
         └── tests/
-            ├── test_render.py  # 変換処理・エスケープ等のユニットテスト
-            └── test_layout_browser.py # Playwright によるレイアウト回帰テスト（任意）
+            ├── test_render.py  # Unit tests for rendering, escaping, and cascades
+            └── test_layout_browser.py # Optional browser visual regression tests via Playwright
 ```
 
 ---
 
-## インストール
+## Installation
 
-本リポジトリのスキルを `~/.agents/skills/docs-lean-canvas` へシンボリックリンクします。
+Symlink the skill from this repository into `~/.agents/skills/docs-lean-canvas`:
 
 ```bash
-# 事前確認（dry-run）
+# Preview actions without modifying anything (dry-run)
 ./install.sh --dry-run
 
-# インストール実行
+# Run installation
 ./install.sh
 ```
 
 ---
 
-## 使い方
+## Usage
 
-### 1. AI エージェント（Cursor, Antigravity など）での利用
+### 1. Using with AI Agents (Cursor, Antigravity, etc.)
 
-エージェントに対して以下のように依頼します：
+Prompt your AI agent:
 
-> 「〇〇というプロダクトのアイディアがあるので、リーンキャンバスを作ってほしい」
+> "I have an idea for [product/service name]. Help me create a Lean Canvas."
 
-エージェントが `skills/docs-lean-canvas/SKILL.md` の指示に従い、対話を通じて `{slug}.lean-canvas.yaml` を作成・更新し、`render.py` を呼び出して `{slug}.lean-canvas.md` を生成します。
+The agent follows `skills/docs-lean-canvas/SKILL.md` to interactively build `{slug}.lean-canvas.yaml`, and automatically executes `render.py` to output `{slug}.lean-canvas.md`.
 
-#### 保存先の設定
-- プロンプトで明示的に指定した場合（例: `docs/ideas/ に保存して`）はその指定が最優先されます。
-- 常に出力先を固定したい場合（Obsidian vault 配下など）、環境変数 `LEAN_CANVAS_OUTPUT_DIR` を設定しておくと自動でその配下に出力されます：
+#### Output Directory Configuration
+- **Explicit Prompt Priority**: If a path is specified in your prompt (e.g., `Save to docs/ideas/`), that destination is always prioritized.
+- **Environment Variable (`LEAN_CANVAS_OUTPUT_DIR`)**: If you prefer saving all canvases in a fixed location (e.g. inside an Obsidian vault), set the environment variable:
   ```bash
   export LEAN_CANVAS_OUTPUT_DIR="$HOME/ObsidianVault/business/idea"
   ```
-- 環境変数がなく保存先の指定もない場合は、エージェントが都度保存先を確認します。
+- **Interactive Prompt**: If neither is set, the agent will ask you where to save the files (defaulting to the current working directory).
 
-### 2. 手動での Markdown 生成（CLI）
+### 2. Manual CLI Markdown Generation
 
-YAML ファイルから手動で Markdown を生成することも可能です。
+You can also run the renderer script directly from the command line:
 
 ```bash
-# 基本実行（同名の .md が出力されます）
+# Basic usage (outputs .md alongside the YAML file)
 python3 skills/docs-lean-canvas/scripts/render.py path/to/my-product.lean-canvas.yaml
 
-# 出力先を指定する場合
+# Specify custom output path
 python3 skills/docs-lean-canvas/scripts/render.py path/to/my-product.lean-canvas.yaml path/to/output.md
 
-# 英語テンプレートで出力する場合
+# Force English template & labels
 python3 skills/docs-lean-canvas/scripts/render.py path/to/my-product.lean-canvas.yaml --lang en
 ```
 
 ---
 
-## テストの実行
+## Running Tests
 
-Python 3 の標準機能でユニットテストを実行できます：
+Run the test suite using Python's built-in `unittest`:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s skills/docs-lean-canvas/tests -v
@@ -108,7 +113,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s skills/docs-lean-canva
 
 ---
 
-## ライセンス
+## License
 
-本リポジトリは [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](LICENSE) のもとで公開されています。非営利目的での利用・改変・共有は自由ですが、商用利用は禁止されています。
-
+This project is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](LICENSE) license.
+You are free to share and adapt the material for non-commercial purposes with appropriate credit, but commercial use is prohibited.
