@@ -67,15 +67,21 @@ YAML を正本として管理し、外部 CSS やプラグインに依存しな�
 
 `install.sh` は macOS / Linux を前提としています。Windows では WSL 上で実行してください。
 
-本リポジトリのスキルを `~/.agents/skills/docs-lean-canvas` へシンボリックリンクします。
+本リポジトリを clone し、スキルを `~/.agents/skills/docs-lean-canvas` へシンボリックリンクします。
 
 ```bash
-# 事前確認（dry-run）
+# 1. 残しておく場所に clone する（シンボリックリンクはこのディレクトリを指します）
+git clone https://github.com/koooyooo/dot-agent-lean-canvas.git
+cd dot-agent-lean-canvas
+
+# 2. 事前確認（dry-run）
 ./install.sh --dry-run
 
-# インストール実行
+# 3. インストール実行
 ./install.sh
 ```
+
+clone 先を移動・削除するとリンクが切れます。更新は `git pull` で反映されます。
 
 > **注意**: `install.sh` のインストール先は `~/.agents/skills/` 配下です。Cursor と Codex はこのディレクトリを直接読み込むため、追加の設定は不要です。お使いのエージェントが別のディレクトリからスキルを読み込む場合は、利用中の環境に応じて配置先を変更するか、そのディレクトリからシンボリックリンクを貼ってください。例:
 >

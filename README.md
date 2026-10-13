@@ -73,15 +73,21 @@ It treats YAML as the single source of truth and generates self-contained Markdo
 
 `install.sh` assumes macOS / Linux. On Windows, run it under WSL.
 
-Symlink the skill from this repository into `~/.agents/skills/docs-lean-canvas`:
+Clone this repository and symlink the skill into `~/.agents/skills/docs-lean-canvas`:
 
 ```bash
-# Preview actions without modifying anything (dry-run)
+# 1. Clone to a location you will keep (the symlink points to this directory)
+git clone https://github.com/koooyooo/dot-agent-lean-canvas.git
+cd dot-agent-lean-canvas
+
+# 2. Preview actions without modifying anything (dry-run)
 ./install.sh --dry-run
 
-# Run installation
+# 3. Run installation
 ./install.sh
 ```
+
+Moving or deleting the cloned directory breaks the symlink. To update the skill, just run `git pull`.
 
 > **Note**: `install.sh` installs the skill under `~/.agents/skills/`. Cursor and Codex load skills from this directory directly, so no extra setup is needed for them. If your agent loads skills from a different directory, either change the destination to match your environment or create a symlink from that directory. For example:
 >
