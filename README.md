@@ -107,6 +107,8 @@ Prompt your AI agent:
 
 > "I have an idea for [product/service name]. Help me create a Lean Canvas."
 
+In agents that support it, you can also invoke the skill explicitly with a slash command such as `/docs-lean-canvas` (the invocation syntax varies by agent).
+
 The agent follows `skills/docs-lean-canvas/SKILL.md` to interactively build `{slug}.lean-canvas.yaml`, and automatically executes `render.py` to output `{slug}.lean-canvas.md`.
 
 #### Output Directory Configuration
