@@ -1,79 +1,79 @@
 meta:
-  project_name: "[プロダクト / サービス名]"
-  author: "[作成者名]"
+  project_name: "[Product / Service Name]"
+  author: "[Author Name]"
   iteration: "v1.0"
   last_updated: "YYYY-MM-DD"
-  # 言語（ja | en。未指定なら ja。en にすると英語テンプレートと英語ラベルで出力）
+  # Language: ja | en (Default is ja if omitted; en uses English template and labels)
   lang: "ja"
-  # New: 今やるかを決める地図。PostHoc: 既存の結果からの再構成（教材・分解）
+  # New: Map for deciding whether to pursue now. PostHoc: Retrospective case study / deconstruction
   canvas_type: "New | PostHoc"
-  # 地図として読めるか。やるかではない。このファイルで運用しないときは -
+  # Map completeness: Draft | Building | Done | -
   status_canvas: "Draft | Building | Done | -"
-  # その地図を見て今やるか。検証済みフラグではない。賭けない PostHoc は -
+  # Personal pursuit decision: Undecided | Go | NoGo | Parked | -
   status_decision: "Undecided | Go | NoGo | Parked | -"
 
 canvas:
 
-  # 1. 課題（Problem）[左端・上下]
+  # 1. Problem [Left column, top & bottom]
   problem:
     top_3_problems:
-      - "最優先で解決すべきユーザーの課題 1"
-      - "課題 2"
-      - "課題 3"
+      - "Top priority problem 1"
+      - "Problem 2"
+      - "Problem 3"
     existing_alternatives:
-      - "現在ユーザーが使っている代替手段（競合サービス、Excel、手作業など）"
+      - "Current alternatives (competitors, spreadsheets, manual work, etc.)"
 
-  # 2. ソリューション（Solution）[中左・上]
+  # 2. Solution [Middle-left, top]
   solution:
     top_3_features:
-      - "課題1を直接解決する機能 / 仕組み"
-      - "課題2を解決する機能"
-      - "課題3を解決する機能"
+      - "Core feature / mechanism solving Problem 1"
+      - "Feature solving Problem 2"
+      - "Feature solving Problem 3"
 
-  # 3. 顧客セグメント（Customer Segments）[右端・上下]
+  # 3. Customer Segments [Right column, top & bottom]
   customer_segments:
     target_customers:
-      - "対象となる主要な顧客グループ・属性"
+      - "Target primary customer groups / attributes"
     early_adopters:
-      - "課題意識が最も高く、最初に飛びついてくれる理想の初期ユーザー像"
+      - "Ideal early adopter profile who feels the pain most acutely"
 
-  # 4. 独自の価値提案（Unique Value Proposition - UVP）[中央・上下]
+  # 4. Unique Value Proposition (UVP) [Center, top & bottom]
   unique_value_proposition:
-    headline: "なぜこのプロダクトを選ぶべきなのかを一言で表すメッセージ"
-    high_level_concept: "一言で例えると何か（例: 「X のための Uber」「完全ローカルで動く Notion」）"
+    headline: "Compelling message stating why this product is worth choosing"
+    high_level_concept: "High-level analogy (e.g. 'Uber for X', 'Offline-first Notion')"
 
-  # 5. 主要指標（Key Metrics）[中左・下]
+  # 5. Key Metrics [Middle-left, bottom]
   key_metrics:
-    acquisition: "初期の集客・サインアップ指標"
-    activation: "「価値を実感した」と判定するアクション（Aha Moment）"
-    retention: "継続利用率（翌日・翌週・翌月の利用維持）"
+    acquisition: "Initial acquisition / signup metric"
+    activation: "Action indicating the user reached value (Aha Moment)"
+    retention: "Retention rate (day/week/month retention)"
 
-  # 6. チャネル（Channels）[中右・下]
+  # 6. Channels [Middle-right, bottom]
   channels:
     inbound_and_outbound:
-      - "ユーザーと出会う経路（SNS、技術ブログ、GitHub、コミュニティ、SEO、口コミなど）"
+      - "Pathways to reach users (SNS, blog, GitHub, community, SEO, word-of-mouth)"
 
-  # 7. 圧倒的な優位性（Unfair Advantage）[中右・上]
+  # 7. Unfair Advantage [Middle-right, top]
   unfair_advantage:
-    defensibility: "簡単には真似・買収できない強み（独自のドメイン知識、固有アルゴリズム、強固なコミュニティ、先行者優位など）"
+    defensibility: "Moats not easily copied or bought (domain expertise, unique algorithms, community, first-mover advantage)"
 
-  # 8. コスト構造（Cost Structure）[底左]
+  # 8. Cost Structure [Bottom-left]
   cost_structure:
     fixed_costs:
-      - "固定費（サーバー代、ドメイン代、外部SaaS利用料など）"
+      - "Fixed costs (servers, domains, SaaS subscriptions, etc.)"
     variable_costs:
-      - "変動費（LLM API利用料、決済手数料、トラフィック従量費など）"
+      - "Variable costs (LLM API usage, payment fees, bandwidth traffic, etc.)"
 
-  # 9. 収益の流れ（Revenue Streams）[底右]
+  # 9. Revenue Streams [Bottom-right]
   revenue_streams:
-    monetization_model: "課金形態（サブスクリプション、買い切り、フリーミアム、API従量課金、広告など）"
-    pricing: "想定価格帯（例: 月額 $10 / 年額 $100）"
-    lifetime_value_estimate: "想定 LTV（または1ユーザーあたりの期待収益）"
+    monetization_model: "Monetization model (subscription, one-time, freemium, API usage, ads, etc.)"
+    pricing: "Target pricing (e.g., $10/mo / $100/yr)"
+    lifetime_value_estimate: "Estimated LTV (or expected revenue per user)"
 
-# 表の「レビュー」。よくある崩れは SKILL.md。チェック欄は作らない
+# Personal review. See SKILL.md for common pitfalls. Do not create a checklist
 review_personal:
-  - "コメント1"
+  - "Comment 1"
 
-# 表の「投資家視点」。書く前に references/review-investor.md を読む
+# Investor view. Read references/review-investor.md before writing
 review_investor:
-  - "コメント1"
+  - "Comment 1"

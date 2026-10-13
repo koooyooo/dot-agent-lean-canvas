@@ -1,31 +1,31 @@
-# 投資家レビュー（外部資本）
+# Investor Review (External Capital)
 
-`New` の「投資家視点」を書く前に読む。やるか（`status_decision` と表の「レビュー」）とは別視点。合格判定でも点数でもない。YAML にチェック欄は作らない。見た結果は `review_investor` にだけ出す。
+Read before writing the "Investor View" (`review_investor`) for `New` canvases. This is a distinct perspective from personal commitment (`status_decision` and the table's "Review"). It is neither a pass/fail grade nor a numeric score. Do not create checklist fields in YAML. Record observations only in `review_investor`.
 
-キャンバス例（`references/sample/`）はマスの書き方であり、このファイルの基準にしない。後年の完成形で「通った」と書かない。
+Canvas examples (`references/sample/`) demonstrate how to fill in boxes and should not be used as benchmarks for this file. Do not claim an idea "passed" based on later-stage completed outcomes.
 
-## 疑うこと
+## Points to Question
 
-- 地図は一本か。マスごとに別事業になっていないか
-- 痛みか、あると便利か。代替が「面倒だが回っている」だけになっていないか
-- 初期顧客が楔か。狭すぎて出られない／広すぎて誰にも刺さらない、になっていないか
-- 最初の到達だけでなく、お金を出して増やせる経路があるか
-- 困る人と払う人の両方の動機があるか（二面・広告はここで落ちやすい）
-- 人が増えるほど苦しくなる労働集約を、プロダクトに見せていないか
-- 優位性が空なのは初期ではよい。空なのに巨大市場だけ主張していないか。積み上がる防御の経路が全くないか
-- いちばん脆い仮説は課題・顧客・チャネル・収益のどれか。それが崩れたら全部崩れるか
-- この地図は外部資本のリターン向きか、自分の事業として十分か（後者なら投資家視点で無理に Go しない）
+- Is the map unified? Are different boxes describing separate businesses?
+- Is it a real pain or a nice-to-have? Are alternatives merely "cumbersome, but working"?
+- Are early adopters a true wedge? Is the segment too narrow to expand from, or too broad to resonate with anyone?
+- Beyond initial reach, is there a paid acquisition channel that scales?
+- Do both problem owners and paying customers have incentives? (Two-sided markets and ad models frequently fail here)
+- Does the product disguise labor-intensive operations that become harder as headcount grows?
+- An empty unfair advantage is acceptable early on. But if empty, are they claiming a massive market without any defensibility path?
+- Which is the most fragile hypothesis: problem, customer, channel, or revenue? If it fails, does everything collapse?
+- Is this map suitable for external capital venture returns, or sufficient as an independent business? (If the latter, do not force a Go from an investor perspective)
 
-キャンバスに無いが、投資家はほぼ必ず見る（欄に捏造しない。分からなければ未決と理由）:
+Not in the canvas, but investors almost always evaluate (do not fabricate in the canvas; mark as "Undecided" / "未決" with rationale if unknown):
 
-- 創業者とこの市場のフィット
-- すでに数字があるか（地図とトラクションは別）
-- Why now（規制・端末・習慣）
-- 代替（今の我慢）と、資金のある競合の区別
+- Founder-market fit
+- Traction and actual metrics (the map is separate from traction)
+- Why now (regulations, hardware/platforms, shifts in habit)
+- Distinction between current workarounds (tolerated compromises) and well-funded competitors
 
-## 出し方
+## How to Report
 
-- 疑いに当たったものと、当たりそうだが今回は違うと言えるものだけ書く
-- 外部資本の話でなければ「今回は外部資本の話ではない」の1行。観点の全列挙はしない
-- `PostHoc` でこのキャンバス自体を賭けないときは、この欄を主にしない。後年の時価・規模を当時の投資判断にしない
-- 個人の `status_decision` に自動変換しない
+- Write only questions that were triggered, and those that might seem triggered but can be defended as inapplicable here.
+- If external capital is not relevant, write a single line: "External capital is not relevant for this canvas." ("今回は外部資本の話ではない" in Japanese). Do not enumerate all criteria.
+- In `PostHoc` mode where this canvas itself is not an active bet, do not make this column the primary focus. Do not use post-scale valuation or market cap as justification for early-stage investment decisions.
+- Do not automatically convert this into the user's personal `status_decision`.
