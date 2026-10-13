@@ -88,7 +88,7 @@ Symlink the skill from this repository into `~/.agents/skills/docs-lean-canvas`:
 > mkdir -p ~/.claude/skills
 > ln -s ~/.agents/skills/docs-lean-canvas ~/.claude/skills/docs-lean-canvas
 >
-> # Antigravity IDE / CLI (~/.gemini/config/skills/)
+> # Antigravity / Antigravity IDE / Antigravity CLI (~/.gemini/config/skills/)
 > mkdir -p ~/.gemini/config/skills
 > ln -s ~/.agents/skills/docs-lean-canvas ~/.gemini/config/skills/docs-lean-canvas
 > ```
