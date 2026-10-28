@@ -22,6 +22,7 @@ It treats YAML as the single source of truth and generates self-contained Markdo
 - **Agent-Driven Lean Canvas Creation**:
   - Organizes hypotheses through conversational dialogue or source documents, structuring problems, customer segments, UVP, channels, revenue streams, and cost structures.
   - Decouples map completeness (`status_canvas`) from personal commitment/investment decisions (`status_decision`).
+  - Closes the validation loop: when you report an experiment result, the agent revises the canvas, bumps `iteration`, resets the decision, and picks the next most fragile hypothesis.
 - **Dual Review Perspectives**:
   - **Problem Review (**`review_problem`**)**: Grounds the problem in the real market: existing domestic/overseas competitors with price ranges, and raw user complaints about existing alternatives (reviews, SNS, forums).
   - **Personal Review (**`review_personal`**)**: Detects common logical pitfalls (solutions ahead of problems, missing alternatives, lack of early adopters, etc.) and applies optional local custom policies (`custom-policy-{name}.md`).
@@ -58,6 +59,7 @@ It treats YAML as the single source of truth and generates self-contained Markdo
         │   └── lean-canvas.css # CSS styling (inlined into Markdown during generation)
         ├── references/
         │   ├── custom-policy-template.md # Template for local custom review criteria
+        │   ├── maintenance.md  # Rendering, viewer compatibility & verification notes for maintainers
         │   ├── review-investor.md  # Investor review guidelines & criteria
         │   └── sample/         # Retrospective case studies (Mercari, OpenAI, LinkedIn, YouTube)
         ├── scripts/

@@ -32,15 +32,16 @@ Confirm the following:
 ## Steps
 
 1. Read [assets/template.yaml](assets/template.yaml).
-2. Save `{slug}.lean-canvas.yaml`. Do not overwrite existing files. Check `canvas_type` (`New` for your own bet, `PostHoc` for deconstructing/studying an existing product). If in progress, set `status_canvas: Draft` or `Building`. If undecided, set `status_decision: Undecided`.
+2. Save `{slug}.lean-canvas.yaml`. When starting a new canvas, do not overwrite an existing file; when continuing the same canvas, update it in place. Check `canvas_type` (`New` for your own bet, `PostHoc` for deconstructing/studying an existing product). If in progress, set `status_canvas: Draft` or `Building`. If undecided, set `status_decision: Undecided`.
 3. Inquire about missing details and update the YAML. For `New` canvases, do not rely solely on unverified assumptions for `problem` and `existing_alternatives`: follow "Problem Review" below and reflect actual market options in `existing_alternatives`.
 4. Write the reviews. For `New` canvases, write `review_problem` per "Problem Review" and `review_fragile_hypothesis` per "Most Fragile Hypothesis" below. The overall review (the table's "Review: Overall" row) evaluates against the "Common Pitfalls" below, plus any active custom policy (`references/custom-policy-{name}.md`, excluding [references/custom-policy-template.md](references/custom-policy-template.md)), and goes into `review_personal`. The investor perspective must always be written after reading [references/review-investor.md](references/review-investor.md) and placed in `review_investor`. If users will not feel value, won't retain, or the business is unlikely to be viable, report this honestly in the overall review. If `canvas_type: New`, gaps should be marked as "Undecided" ("未決" in Japanese) with the rationale. If `PostHoc`, it is a reconstruction from known outcomes; do not turn past success into a modern `Go`. In this case, neither common pitfalls, custom policies, nor the investor perspective should be the primary focus of either section, and `review_problem` / `review_fragile_hypothesis` may be omitted.
-5. When `status_canvas: Done` is reached, or when output is requested, do not construct the table by hand. Run [scripts/render.py](scripts/render.py) in the skill directory using the first interpreter that succeeds in the following order (on Windows, try `py -3` first). The argument is the YAML file. If unspecified, it outputs `{slug}.lean-canvas.md` with the same name. The script reads the table skeleton from [assets/template.md](assets/template.md) (or [assets/template_en.md](assets/template_en.md) for English), and styling from [assets/lean-canvas.css](assets/lean-canvas.css). CSS is maintained as the source of truth for styling and inlined into each HTML element's `style` attribute during generation. The output does not depend on external CSS, `class`, `<link>`, or `<style>`, and does not copy CSS files. The condition for Markdown output is `status_canvas`, not `status_decision`.
+5. When `status_canvas: Done` is reached, or when output is requested, do not construct the table by hand. Run [scripts/render.py](scripts/render.py) in the skill directory using the first interpreter that succeeds in the following order (on Windows, try `py -3` first). The argument is the YAML file. If unspecified, it outputs `{slug}.lean-canvas.md` with the same name. The output is Markdown with self-contained HTML tables whose styles are inlined. The condition for Markdown output is `status_canvas`, not `status_decision`.
    - `py -3`
    - `python3`
    - `python`
    - Example (run via `terminal` with skill directory as working directory): `python3 scripts/render.py /path/to/{slug}.lean-canvas.yaml`
    - If none exist, or if the script fails, report the reason and preserve the YAML without corrupting any existing derivative Markdown. Only when manual output is strictly necessary, use the same 5-column structure from the language template and inline the relevant CSS declarations into the `style` attributes. Do not revert to external CSS or `<style>` blocks. If inlining cannot be verified, explicitly report that it is an unstyled fallback output and do not claim it is properly styled.
+6. When the user reports the result of a validation experiment, follow "Iterating After Validation" below.
 
 ## Writing Guidelines
 
@@ -48,26 +49,12 @@ Confirm the following:
 - `status_canvas` indicates whether it can be read as a coherent map (`Draft` / `Building` / `Done`). `status_decision` indicates whether to pursue it now after reviewing the map (`Undecided` / `Go` / `NoGo` / `Parked`). It is not a hypothesis-validated flag. It is a personal decision, not the conclusion of the investor section. `Parked` means not doing it right now. When changing direction, revise the canvas, increment `iteration`, and reset decision to `Undecided`.
 - When `status_decision: Go`, leave a single line in the table's "Review: Overall" row (`review_personal`) explaining what evidence prompted the Go (e.g., still a hypothesis, user feedback, personal constraints).
 - In `PostHoc` mode where you are not betting on this canvas itself (case studies / deconstructions), set `status_canvas` and `status_decision` to `-`. Even if all boxes are filled, it is not an investment decision; do not set `Go`.
-- The Markdown 5-column HTML is rendered by [scripts/render.py](scripts/render.py) from [assets/template.md](assets/template.md) and [assets/lean-canvas.css](assets/lean-canvas.css). When altering the table layout, edit template.md and the CSS; do not touch hardcoded table logic in Python. Type, Canvas Status, Decision, Review: Problem, Review: Overall, Review: Fragile Hypothesis, and Investor View are placed in the table below, not inside the canvas table. Only fill template.md `{{...}}` tokens when manually assembling. CSS is inlined into each element's `style` attribute, not in `<style>` blocks. Do not nest tables. Do not create blank cells or 3-column layouts.
+- Type, Canvas Status, Decision, Review: Problem, Review: Overall, Review: Fragile Hypothesis, and Investor View are placed in the table below, not inside the canvas table. Do not nest tables. Do not create blank cells or 3-column layouts.
+- When changing the table layout, CSS, templates, or scripts, or when investigating display issues in a Markdown viewer, read [references/maintenance.md](references/maintenance.md) first. It is not needed for creating or updating a canvas.
 - Arrays, metrics, costs, revenue, and UVP in YAML are formatted as `<ul>` inside cells. UVP consists of two items: headline and "Concept: high_level_concept" (or "例え: high_level_concept" in Japanese; the script outputs them this way).
 - The UVP headline must be a promise that resonates with the customer, not a summary of feature lists.
 - Retrospective examples (not official views): [Mercari](references/sample/mercari-ja.lean-canvas.yaml), [YouTube](references/sample/youtube-ja.lean-canvas.yaml), [LinkedIn](references/sample/linkedin-ja.lean-canvas.yaml). Do not use these as benchmarks for evaluation criteria.
 - Match the user's language. If the user interacts in Japanese, write the canvas in Japanese (defaulting to `lang: ja`). When outputting in English, specify `meta.lang: en` in the YAML. `render.py` automatically switches to the English template ([assets/template_en.md](assets/template_en.md)) and English labels (Problem, Acquisition:, Fixed:, etc.) (can also be specified via CLI option `--lang en`).
-
-## Markdown Viewer Compatibility
-
-- Standard output is Markdown containing self-contained HTML tables. Borders, background/text colors, margins, lists, and column widths are inlined into `style` attributes, with classes removed. Existing copied CSS is unnecessary, but do not delete the user's files.
-- [scripts/inline_css.py](scripts/inline_css.py) is a zero-dependency, restricted CSS inliner. It handles tag/class compound selectors, descendants, comma-separated lists, `:first-child` / `:last-child`, specificity, declaration order, existing styles, and `!important`. To preserve the order of shorthands and individual properties, duplicate declarations may remain in the output.
-- Supported properties are listed in `PROPERTIES` in the inliner. Values are restricted to simple colors, dimensions, keywords, and unquoted font strings. Child combinators, attribute selectors, other pseudo-classes, at-rules, CSS functions/variables, quoted values, and unsupported properties cause errors. When expanding CSS, add regression tests and support first; do not drop properties silently. This is not a general CSS engine or full value validator.
-- `--css-src` specifies the source CSS to inline. Legacy `--css-href` / `--no-copy-css` flags are accepted for compatibility but have no effect. `--template` specifies an HTML template with explicit closing tags and must not contain `<link>` / `<style>` tags.
-- Do not strip template newlines or indentation; `white-space: normal` on tables stops inheritance of editor view `pre-wrap` / `pre-line`. Whitespace converted into line boxes widens gaps before headers and between lists. Maintain `vertical-align: top !important` on cells. If overridden by a theme's `middle !important`, header positions vary depending on content volume and rowspan. Reproduce these two symptoms separately; do not fix them by globally stripping newlines with regular expressions.
-- Even considering Obsidian HTML sanitization (https://obsidian.md/help/html) and Typora editing constraints (https://support.typora.io/HTML/), identical display across all themes and properties is not guaranteed. Do not advise that placing classes in a theme will solve issues. Distinguish between YAML->MD generation verification and live editing, viewing, or printing verification in applications.
-
-## Verification
-
-- In the skill directory, run `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v` via `terminal` (on Windows, set environment variables appropriately). Verify bilingual CLI, escaping, 5-column structure, descendant/first/last-child cells, cascade, and unsupported CSS rejection.
-- When modifying layout, also run [tests/test_layout_browser.py](tests/test_layout_browser.py). Prepare a separate virtual environment with `python -m pip install playwright` and `python -m playwright install chromium` via `terminal`, then run the above unittest with that Python. To use an installed Google Chrome, set `LEAN_CANVAS_BROWSER_CHANNEL=chrome`. Check header top alignment, list gaps, table height, text content, and 5-column rowspans across Japanese/English x normal/pre-wrap/pre-line x normal/middle !important in real browser measurements. Because this test is skipped when Playwright is not installed, passing regular tests alone does not count as layout verification. Test HTML for inheritance testing must include `<!doctype html>` (quirks mode table defaults hide defects).
-- When re-rendering, compare YAML hashes before and after changes to verify that the generated Markdown contains no `<link>`, `<style>`, or `class=`, and that original content and the 5-column structure are preserved. If the application has not been opened, report UI as unverified.
 
 ## Problem Review (`review_problem`)
 
@@ -84,6 +71,17 @@ For `New` canvases, identify exactly one hypothesis and one validation action. D
 - `hypothesis`: the single assumption whose failure would break this canvas most (often the problem's severity, willingness to pay, or the initial channel).
 - `experiment`: one concrete action completable within a few hours to one week, before implementation. Specify what to do and the signal to observe, e.g., which article or video to publish and what reaction counts as a pass, whom to ask what, or which mock or LP to show.
 - If a custom policy defines validation criteria (e.g., time budget), apply them here.
+
+## Iterating After Validation
+
+When the user reports the result of the experiment in `review_fragile_hypothesis` (or any other new evidence), close the loop in the same YAML file. Do not add new fields to the YAML schema.
+
+1. Revise the affected boxes (e.g., `problem`, `customer_segments`, `channels`, `revenue_streams`) to reflect the evidence. If the hypothesis held, keep the boxes and note that it is now supported by evidence.
+2. Increment `iteration` (e.g., `v1.0` -> `v1.1`; use the next major version for a pivot) and update `last_updated`.
+3. Reset `status_decision` to `Undecided`, since the decision was made on the previous map.
+4. Add one line to `review_personal` summarizing the experiment, the observed signal, and what changed (e.g., "v1.1: Asked 5 users; 4 already pay for X -> willingness to pay supported").
+5. Choose the next most fragile hypothesis and rewrite `review_fragile_hypothesis` with a new experiment. Do not repeat a hypothesis that has already been tested unless the evidence was inconclusive; if so, say so and design a sharper experiment.
+6. Re-render the Markdown if it already exists or when `status_canvas: Done`.
 
 ## Common Pitfalls (for Review: Overall)
 

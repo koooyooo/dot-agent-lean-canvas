@@ -1,0 +1,23 @@
+# Maintenance Notes
+
+Read this file only when changing the table layout, CSS, templates, `render.py`, or `inline_css.py`, or when investigating how the rendered Markdown displays in a viewer. It is not needed for creating or updating a canvas.
+
+## Rendering Pipeline
+
+- [../scripts/render.py](../scripts/render.py) reads the table skeleton from [../assets/template.md](../assets/template.md) (or [../assets/template_en.md](../assets/template_en.md) for English) and styling from [../assets/lean-canvas.css](../assets/lean-canvas.css). The CSS is the source of truth for styling and is inlined into each HTML element's `style` attribute. The output does not depend on external CSS, `class`, `<link>`, or `<style>`, and does not copy CSS files.
+- When altering the table layout, edit template.md and the CSS; do not touch hardcoded table logic in Python. Only fill template.md `{{...}}` tokens when manually assembling.
+
+## Markdown Viewer Compatibility
+
+- Standard output is Markdown containing self-contained HTML tables. Borders, background/text colors, margins, lists, and column widths are inlined into `style` attributes, with classes removed. Existing copied CSS is unnecessary, but do not delete the user's files.
+- [scripts/inline_css.py](../scripts/inline_css.py) is a zero-dependency, restricted CSS inliner. It handles tag/class compound selectors, descendants, comma-separated lists, `:first-child` / `:last-child`, specificity, declaration order, existing styles, and `!important`. To preserve the order of shorthands and individual properties, duplicate declarations may remain in the output.
+- Supported properties are listed in `PROPERTIES` in the inliner. Values are restricted to simple colors, dimensions, keywords, and unquoted font strings. Child combinators, attribute selectors, other pseudo-classes, at-rules, CSS functions/variables, quoted values, and unsupported properties cause errors. When expanding CSS, add regression tests and support first; do not drop properties silently. This is not a general CSS engine or full value validator.
+- `--css-src` specifies the source CSS to inline. Legacy `--css-href` / `--no-copy-css` flags are accepted for compatibility but have no effect. `--template` specifies an HTML template with explicit closing tags and must not contain `<link>` / `<style>` tags.
+- Do not strip template newlines or indentation; `white-space: normal` on tables stops inheritance of editor view `pre-wrap` / `pre-line`. Whitespace converted into line boxes widens gaps before headers and between lists. Maintain `vertical-align: top !important` on cells. If overridden by a theme's `middle !important`, header positions vary depending on content volume and rowspan. Reproduce these two symptoms separately; do not fix them by globally stripping newlines with regular expressions.
+- Even considering Obsidian HTML sanitization (https://obsidian.md/help/html) and Typora editing constraints (https://support.typora.io/HTML/), identical display across all themes and properties is not guaranteed. Do not advise that placing classes in a theme will solve issues. Distinguish between YAML->MD generation verification and live editing, viewing, or printing verification in applications.
+
+## Verification
+
+- In the skill directory, run `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v` via `terminal` (on Windows, set environment variables appropriately). Verify bilingual CLI, escaping, 5-column structure, descendant/first/last-child cells, cascade, and unsupported CSS rejection.
+- When modifying layout, also run [tests/test_layout_browser.py](../tests/test_layout_browser.py). Prepare a separate virtual environment with `python -m pip install playwright` and `python -m playwright install chromium` via `terminal`, then run the above unittest with that Python. To use an installed Google Chrome, set `LEAN_CANVAS_BROWSER_CHANNEL=chrome`. Check header top alignment, list gaps, table height, text content, and 5-column rowspans across Japanese/English x normal/pre-wrap/pre-line x normal/middle !important in real browser measurements. Because this test is skipped when Playwright is not installed, passing regular tests alone does not count as layout verification. Test HTML for inheritance testing must include `<!doctype html>` (quirks mode table defaults hide defects).
+- When re-rendering, compare YAML hashes before and after changes to verify that the generated Markdown contains no `<link>`, `<style>`, or `class=`, and that original content and the 5-column structure are preserved. If the application has not been opened, report UI as unverified.
