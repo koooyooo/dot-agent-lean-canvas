@@ -117,8 +117,16 @@
     <td>{{status_decision}}</td>
   </tr>
   <tr>
-    <td>Review</td>
+    <td>Review: Problem</td>
+    <td>{{cell_review_problem}}</td>
+  </tr>
+  <tr>
+    <td>Review: Overall</td>
     <td>{{cell_review_personal}}</td>
+  </tr>
+  <tr>
+    <td>Review: Fragile Hypothesis</td>
+    <td>{{cell_review_fragile}}</td>
   </tr>
   <tr>
     <td>Investor View</td>

@@ -17,3 +17,7 @@ ENV/
 .idea/
 *.swp
 *.swo
+
+# Custom policy files (ignore all except the template)
+skills/docs-lean-canvas/references/custom-policy-*.md
+!skills/docs-lean-canvas/references/custom-policy-template.md

@@ -31,6 +31,19 @@ class RenderTests(unittest.TestCase):
                 self.assertNotIn('\n', table)
 
 
+    def test_problem_and_fragile_hypothesis_review_rows(self):
+        data = {
+            'review_problem': ['Competitor: X - $10/mo'],
+            'review_fragile_hypothesis': {'hypothesis': 'Users pay', 'experiment': 'Ask 5 users'},
+        }
+        for lang, labels in [('ja', ['レビュー: 課題', 'レビュー: 総評', 'レビュー: 脆い仮説', '仮説: Users pay', '検証: Ask 5 users']),
+                             ('en', ['Review: Problem', 'Review: Overall', 'Review: Fragile Hypothesis', 'Hypothesis: Users pay', 'Experiment: Ask 5 users'])]:
+            out = render.render_md(data, lang=lang)
+            for label in labels + ['Competitor: X - $10/mo']:
+                self.assertIn(label, out)
+            self.assertLess(out.index(labels[0]), out.index(labels[1]))
+            self.assertLess(out.index(labels[1]), out.index(labels[2]))
+
     def test_cascade_specificity_source_order_inline_and_important(self):
         text = '<div class="outer"><b class="item" style="color: black; padding: 9px !important; margin: 4px">x</b></div>'
         css = '''.outer .item { color: red; margin-top: 2px; }

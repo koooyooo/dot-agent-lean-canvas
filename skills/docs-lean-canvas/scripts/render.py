@@ -25,7 +25,7 @@ I18N = {
         "blurb_posthoc": "既存サービスの後追いサンプル。公式資料ではない。",
         "blurb_new": (
             "表は公式 Lean Canvas の 5 列（課題・顧客が左右端、UVP が中央）。"
-            "種別・キャンバス完成・決定・レビュー・投資家視点は下の表。"
+            "種別・キャンバス完成・決定・レビュー（課題・総評・脆い仮説）・投資家視点は下の表。"
             "装飾は各要素の style 属性に展開する。表はネストしない。プレースホルダは残さない。"
         ),
         "undecided": "未決",
@@ -38,12 +38,14 @@ I18N = {
         "monetization_prefix": "課金: ",
         "pricing_prefix": "価格: ",
         "ltv_prefix": "LTV: ",
+        "hypothesis_prefix": "仮説: ",
+        "experiment_prefix": "検証: ",
     },
     "en": {
         "blurb_posthoc": "Post-hoc retrospective sample of an existing service. Not an official document.",
         "blurb_new": (
             "Standard 5-column Lean Canvas (Problem and Customer at edges, UVP in center). "
-            "Type, Canvas Status, Decision, Review, and Investor View are in the table below. "
+            "Type, Canvas Status, Decision, Reviews (Problem, Overall, Fragile Hypothesis), and Investor View are in the table below. "
             "Styles are inline on each element. Tables are not nested. No unfilled placeholders."
         ),
         "undecided": "Undecided",
@@ -56,6 +58,8 @@ I18N = {
         "monetization_prefix": "Model: ",
         "pricing_prefix": "Pricing: ",
         "ltv_prefix": "LTV: ",
+        "hypothesis_prefix": "Hypothesis: ",
+        "experiment_prefix": "Experiment: ",
     },
 }
 
@@ -256,6 +260,17 @@ def _review_cell(items: list[str]) -> str:
     return f"\n      <ul>\n        {inner}\n      </ul>\n    "
 
 
+def _fragile_items(val, i18n: dict) -> list[str]:
+    if not isinstance(val, dict):
+        return _as_list(val)
+    items = []
+    if val.get("hypothesis"):
+        items.append(f"{i18n['hypothesis_prefix']}{val['hypothesis']}")
+    if val.get("experiment"):
+        items.append(f"{i18n['experiment_prefix']}{val['experiment']}")
+    return items
+
+
 def _fill(template: str, values: dict[str, str]) -> str:
     out = template
     for key, val in values.items():
@@ -340,7 +355,9 @@ def render_md(data: dict, css_href: str = "lean-canvas.css", template_path: Path
         "canvas_type": html.escape(canvas_type),
         "status_canvas": html.escape(str(meta.get("status_canvas") or "-")),
         "status_decision": html.escape(str(meta.get("status_decision") or "-")),
+        "cell_review_problem": _review_cell(_as_list(data.get("review_problem"))) or "-",
         "cell_review_personal": _review_cell(_as_list(data.get("review_personal"))),
+        "cell_review_fragile": _review_cell(_fragile_items(data.get("review_fragile_hypothesis"), i18n)) or "-",
         "cell_review_investor": _review_cell(_as_list(data.get("review_investor"))),
     }
     rendered = inline_css(_fill(raw, values), css_src.read_text(encoding="utf-8"))

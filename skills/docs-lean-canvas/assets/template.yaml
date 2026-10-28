@@ -70,9 +70,19 @@ canvas:
     pricing: "Target pricing (e.g., $10/mo / $100/yr)"
     lifetime_value_estimate: "Estimated LTV (or expected revenue per user)"
 
-# Personal review. See SKILL.md for common pitfalls. Do not create a checklist
+# Problem review (New). Real competitors (domestic / overseas) with pricing, and raw user complaints about existing alternatives
+review_problem:
+  - "Competitor: [Service] ([Region]) - [Price] - [Gap vs. this canvas]"
+  - "Complaint: \"[Quoted or paraphrased user voice]\" ([Source: review site / SNS / forum])"
+
+# Overall personal review. See SKILL.md for common pitfalls. Do not create a checklist
 review_personal:
   - "Comment 1"
+
+# Most fragile hypothesis (New). Exactly one hypothesis and one validation action doable in hours to 1 week
+review_fragile_hypothesis:
+  hypothesis: "The single assumption whose failure breaks this canvas"
+  experiment: "One concrete action (article/video to publish, who to ask what, which mock to show) with the signal to observe"
 
 # Investor view. Read references/review-investor.md before writing
 review_investor:

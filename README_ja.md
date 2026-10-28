@@ -21,7 +21,9 @@ YAML を正本として管理し、外部 CSS やプラグインに依存しな�
   - 対話や資料から仮説を埋め、ビジネスモデルの構造（課題・顧客・UVP・チャネル・収益等）を整理。
   - 地図の完成度（`status_canvas`）と本人の実行判断（`status_decision`）を分離して管理。
 - **二重のレビュー視点**:
-  - **自己レビュー（`review_personal`）**: よくある論理崩れ（課題なきソリューション、代替の欠如など）の点検。
+  - **課題レビュー（`review_problem`）**: 国内外の既存競合サービスと価格帯、既存の代替手段に対するユーザーの生の不満（レビュー・SNS・掲示板）で課題を裏付け。
+  - **自己レビュー（`review_personal`）**: よくある論理崩れ（課題なきソリューション、代替の欠如など）の点検と、任意のローカル評価基準（`custom-policy-{name}.md`）の適用。
+  - **最も脆い仮説（`review_fragile_hypothesis`）**: 最も脆い仮説を 1 つ特定し、数時間〜1 週間でできる具体的な検証アクションを 1 つ提案。
   - **投資家視点（`review_investor`）**: 外部資本の観点から市場性やトラクション仮説、脆いポイントを点検。
 - **ポータブルな Markdown 出力**:
   - 公式の 5 列構成（課題・顧客が両端、UVP が中央）を維持。
@@ -51,6 +53,7 @@ YAML を正本として管理し、外部 CSS やプラグインに依存しな�
         │   ├── template_en.md  # 表骨格テンプレート（英語）
         │   └── lean-canvas.css # スタイリング定義（生成時にインライン化）
         ├── references/
+        │   ├── custom-policy-template.md # ローカル評価基準（カスタムポリシー）のテンプレート
         │   ├── review-investor.md  # 投資家視点のレビュー基準
         │   └── sample/         # 後追いサンプル（メルカリ、OpenAI、LinkedIn、YouTube）
         ├── scripts/
@@ -132,7 +135,12 @@ ln -s ~/.agents/skills/docs-lean-canvas ~/.hermes/skills/custom/docs-lean-canvas
   ```bash
   export LEAN_CANVAS_OUTPUT_DIR="$HOME/ObsidianVault/business/idea"
   ```
-- 環境変数がなく保存先の指定もない場合は、エージェントが都度保存先を確認します。
+- 環境変数がなく保存先の指定もない場合は、エージェントが `1.` カレントディレクトリ、`2.` `~/Documents/lean-canvas/`、`3.` その他のパス、から番号で選ぶよう確認します。保存先のディレクトリがなければ作成します。
+
+#### カスタム評価基準（Custom Policy）の設定（任意）
+`skills/docs-lean-canvas/references/custom-policy-template.md` をコピーして `skills/docs-lean-canvas/references/custom-policy-{name}.md` を作成することで、独自の評価基準（個人開発・NoOps制約、目標収益ラインなど）を追加できます。
+- `custom-policy-template.md` 以外の `custom-policy-*.md` は `.gitignore` 対象となっており、非公開の判断基準がリポジトリに混入しません。
+- `custom-policy-{name}.md` が 1 つ存在する場合は既定で読み込まれ、`review_personal` のレビューに自動反映されます。
 
 ### 2. 手動での Markdown 生成（CLI）
 

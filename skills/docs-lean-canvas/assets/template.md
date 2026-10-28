@@ -117,8 +117,16 @@
     <td>{{status_decision}}</td>
   </tr>
   <tr>
-    <td>レビュー</td>
+    <td>レビュー: 課題</td>
+    <td>{{cell_review_problem}}</td>
+  </tr>
+  <tr>
+    <td>レビュー: 総評</td>
     <td>{{cell_review_personal}}</td>
+  </tr>
+  <tr>
+    <td>レビュー: 脆い仮説</td>
+    <td>{{cell_review_fragile}}</td>
   </tr>
   <tr>
     <td>投資家視点</td>
