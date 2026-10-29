@@ -23,11 +23,12 @@ It treats YAML as the single source of truth and generates self-contained Markdo
   - Organizes hypotheses through conversational dialogue or source documents, structuring problems, customer segments, UVP, channels, revenue streams, and cost structures.
   - Decouples map completeness (`status_canvas`) from personal commitment/investment decisions (`status_decision`).
   - Closes the validation loop: when you report an experiment result, the agent revises the canvas, bumps `iteration`, resets the decision, and picks the next most fragile hypothesis.
-- **Dual Review Perspectives**:
-  - **Problem Review (**`review_problem`**)**: Grounds the problem in the real market: existing domestic/overseas competitors with price ranges, and raw user complaints about existing alternatives (reviews, SNS, forums).
-  - **Personal Review (**`review_personal`**)**: Detects common logical pitfalls (solutions ahead of problems, missing alternatives, lack of early adopters, etc.) and applies optional local custom policies (`custom-policy-{name}.md`).
-  - **Most Fragile Hypothesis (**`review_fragile_hypothesis`**)**: Identifies the single most fragile hypothesis and one concrete validation action doable within hours to a week.
-  - **Investor View (**`review_investor`**)**: Evaluates market viability, traction hypotheses, defensibility moats, and fragile assumptions from an external venture capital perspective.
+- **Risk-Based Review (Running Lean)**:
+  - **Three Risks (**`review_risks`**)**: Customer, Market, and Product (problem / solution) risks, each with an evidence status (`Untested` / `Signal` / `Supported` / `Refuted`) and a one-line comment grounded in real competitors, pricing, and raw user complaints.
+  - **Validation Stages (**`review_stages`**)**: Problem/Solution Fit, Product/Market Fit, and Scale, each with a status and a one-line comment on how it was cleared or what is left. A stage can be `Cleared` only when its required risks are `Supported`; `render.py` warns otherwise.
+  - **Most Fragile Hypothesis (**`review_fragile_hypothesis`**)**: The single most fragile hypothesis (tagged with its risk axis) and one concrete validation action doable within hours to a week.
+  - **Rank and Overall Review (**`review_rank`**, **`review_personal`**)**: An S-D grade by prospect with a reason naming the weakest risk (marked "prospect, unverified" for S/A before Problem/Solution Fit), followed by common logical pitfalls and optional local custom policies (`custom-policy-{name}.md`).
+  - The reviews render as four tables below the canvas: Meta, Risks, Validation, and Overall Review (Rank / Reason / Notes).
 - **Portable Markdown Tables**:
   - Preserves the canonical 5-column Lean Canvas layout (Problem & Customer on outer columns, UVP in the center).
   - Inlines CSS properties directly into element `style` attributes to ensure consistent rendering across Markdown viewers like GitHub, Obsidian, VS Code, and Typora.
@@ -60,7 +61,7 @@ It treats YAML as the single source of truth and generates self-contained Markdo
         ├── references/
         │   ├── custom-policy-template.md # Template for local custom review criteria
         │   ├── maintenance.md  # Rendering, viewer compatibility & verification notes for maintainers
-        │   ├── review-investor.md  # Investor review guidelines & criteria
+        │   ├── review-rank.md      # Rank (S-D) criteria
         │   └── sample/         # Retrospective case studies (Mercari, OpenAI, LinkedIn, YouTube)
         ├── scripts/
         │   ├── render.py       # YAML -> Markdown table renderer
@@ -155,7 +156,7 @@ The agent follows `skills/docs-lean-canvas/SKILL.md` to interactively build `{sl
 You can define your own evaluation criteria (e.g., solo-creator fit, NoOps constraints, target revenue milestones) by copying `skills/docs-lean-canvas/references/custom-policy-template.md` to `skills/docs-lean-canvas/references/custom-policy-{name}.md`.
 
 - All `custom-policy-*.md` files except `custom-policy-template.md` are ignored by Git, keeping your private criteria local.
-- When a single `custom-policy-{name}.md` file is present, the agent automatically applies it when generating `review_personal`.
+- When a single `custom-policy-{name}.md` file is present, the agent automatically applies it when generating `review_personal` and `review_rank`.
 
 
 

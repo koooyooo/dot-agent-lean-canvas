@@ -19,13 +19,21 @@ ASSETS_CSS = SKILL_ROOT / "assets" / "lean-canvas.css"
 TEMPLATE_MD = SKILL_ROOT / "assets" / "template.md"
 TEMPLATE_EN_MD = SKILL_ROOT / "assets" / "template_en.md"
 TOKEN = re.compile(r"\{\{[a-z_]+\}\}")
+RISKS = ("customer", "market", "product")
+STAGES = ("problem_solution_fit", "product_market_fit", "scale")
+# A stage may be Cleared only when these risks are Supported and the previous stage is Cleared.
+STAGE_REQUIRES = {
+    "problem_solution_fit": (("customer", "product"), None),
+    "product_market_fit": (("market", "product"), "problem_solution_fit"),
+    "scale": (("market",), "product_market_fit"),
+}
 
 I18N = {
     "ja": {
         "blurb_posthoc": "既存サービスの後追いサンプル。公式資料ではない。",
         "blurb_new": (
             "表は公式 Lean Canvas の 5 列（課題・顧客が左右端、UVP が中央）。"
-            "種別・キャンバス完成・決定・レビュー（課題・総評・脆い仮説）・投資家視点は下の表。"
+            "メタ情報・リスク・検証・総評は下の 4 つの表。"
             "装飾は各要素の style 属性に展開する。表はネストしない。プレースホルダは残さない。"
         ),
         "undecided": "未決",
@@ -40,12 +48,20 @@ I18N = {
         "ltv_prefix": "LTV: ",
         "hypothesis_prefix": "仮説: ",
         "experiment_prefix": "検証: ",
+        "risk_axis_prefix": "軸: ",
+        "rank_unverified": "（見込み・未検証）",
+        "rank_posthoc": "-（後追いのため付けない）",
+        "legacy_problem_prefix": "課題調査: ",
+        "legacy_investor_prefix": "投資家視点: ",
+        "risk_status": {"Untested": "未検証", "Signal": "兆候あり", "Supported": "裏付けあり", "Refuted": "否定"},
+        "stage_status": {"NotStarted": "未着手", "InProgress": "検証中", "Cleared": "クリア"},
+        "risk_names": {"customer": "顧客", "market": "市場", "product": "プロダクト"},
     },
     "en": {
         "blurb_posthoc": "Post-hoc retrospective sample of an existing service. Not an official document.",
         "blurb_new": (
             "Standard 5-column Lean Canvas (Problem and Customer at edges, UVP in center). "
-            "Type, Canvas Status, Decision, Reviews (Problem, Overall, Fragile Hypothesis), and Investor View are in the table below. "
+            "Meta, Risks, Validation, and Overall Review are in the four tables below. "
             "Styles are inline on each element. Tables are not nested. No unfilled placeholders."
         ),
         "undecided": "Undecided",
@@ -60,6 +76,14 @@ I18N = {
         "ltv_prefix": "LTV: ",
         "hypothesis_prefix": "Hypothesis: ",
         "experiment_prefix": "Experiment: ",
+        "risk_axis_prefix": "Axis: ",
+        "rank_unverified": " (prospect, unverified)",
+        "rank_posthoc": "- (not ranked for post-hoc)",
+        "legacy_problem_prefix": "Problem research: ",
+        "legacy_investor_prefix": "Investor view: ",
+        "risk_status": {"Untested": "Untested", "Signal": "Signal", "Supported": "Supported", "Refuted": "Refuted"},
+        "stage_status": {"NotStarted": "Not started", "InProgress": "In progress", "Cleared": "Cleared"},
+        "risk_names": {"customer": "Customer", "market": "Market", "product": "Product"},
     },
 }
 
@@ -264,11 +288,70 @@ def _fragile_items(val, i18n: dict) -> list[str]:
     if not isinstance(val, dict):
         return _as_list(val)
     items = []
+    if val.get("risk"):
+        risk = str(val["risk"])
+        items.append(f"{i18n['risk_axis_prefix']}{i18n['risk_names'].get(risk, risk)}")
     if val.get("hypothesis"):
         items.append(f"{i18n['hypothesis_prefix']}{val['hypothesis']}")
     if val.get("experiment"):
         items.append(f"{i18n['experiment_prefix']}{val['experiment']}")
     return items
+
+
+def _status(val) -> str:
+    return str(val.get("status") or "") if isinstance(val, dict) else ""
+
+
+def _status_items(val, labels: dict) -> list[str]:
+    """{status, comment} -> one line such as "[兆候あり] comment"."""
+    if not isinstance(val, dict):
+        return _as_list(val)
+    status = _status(val)
+    comment = str(val.get("comment") or "")
+    label = f"[{labels.get(status, status)}]" if status else ""
+    line = " ".join(x for x in (label, comment) if x)
+    return [line] if line else []
+
+
+def _rank_grade(val, stages: dict, i18n: dict) -> str:
+    if not isinstance(val, dict) or not val.get("grade"):
+        return ""
+    grade = str(val["grade"]).strip()
+    # S/A is a prospect until problem/solution fit is cleared; say so in the cell.
+    if grade in ("S", "A") and stages and _status(stages.get("problem_solution_fit")) != "Cleared":
+        grade += i18n["rank_unverified"]
+    return html.escape(grade)
+
+
+def _rank_reason(val) -> list[str]:
+    if isinstance(val, dict):
+        return _as_list(val.get("reason"))
+    return _as_list(val)
+
+
+def validation_warnings(data: dict) -> list[str]:
+    """Stages marked Cleared without the risks or previous stage they depend on."""
+    risks = data.get("review_risks") or {}
+    stages = data.get("review_stages") or {}
+    if not isinstance(risks, dict) or not isinstance(stages, dict):
+        return []
+    out = []
+    for stage, (needed, previous) in STAGE_REQUIRES.items():
+        if _status(stages.get(stage)) != "Cleared":
+            continue
+        missing = [r for r in needed if _status(risks.get(r)) != "Supported"]
+        if missing:
+            out.append(f"{stage} is Cleared but risks are not Supported: {', '.join(missing)}")
+        if previous and _status(stages.get(previous)) != "Cleared":
+            out.append(f"{stage} is Cleared but {previous} is not Cleared")
+    return out
+
+
+def _drop_empty_rows(template: str, keys: list[str]) -> str:
+    for key in keys:
+        template = re.sub(r"[ \t]*<tr>\s*<td>[^<]*</td>\s*<td>\{\{" + key + r"\}\}</td>\s*</tr>\n?", "", template)
+    # A table left without rows goes away together with its heading.
+    return re.sub(r"### [^\n]*\n\s*<table\b[^>]*>\s*</table>\n?\n?", "", template)
 
 
 def _fill(template: str, values: dict[str, str]) -> str:
@@ -321,6 +404,8 @@ def render_md(data: dict, css_href: str = "lean-canvas.css", template_path: Path
     channels = canvas.get("channels") or {}
     cost = canvas.get("cost_structure") or {}
     revenue = canvas.get("revenue_streams") or {}
+    risks = data.get("review_risks") if isinstance(data.get("review_risks"), dict) else {}
+    stages = data.get("review_stages") if isinstance(data.get("review_stages"), dict) else {}
     default_empty = i18n["undecided"]
     headline = str(uvp.get("headline") or default_empty)
     concept = str(uvp.get("high_level_concept") or default_empty)
@@ -355,11 +440,30 @@ def render_md(data: dict, css_href: str = "lean-canvas.css", template_path: Path
         "canvas_type": html.escape(canvas_type),
         "status_canvas": html.escape(str(meta.get("status_canvas") or "-")),
         "status_decision": html.escape(str(meta.get("status_decision") or "-")),
-        "cell_review_problem": _review_cell(_as_list(data.get("review_problem"))) or "-",
-        "cell_review_personal": _review_cell(_as_list(data.get("review_personal"))),
-        "cell_review_fragile": _review_cell(_fragile_items(data.get("review_fragile_hypothesis"), i18n)) or "-",
-        "cell_review_investor": _review_cell(_as_list(data.get("review_investor"))),
+        "cell_review_fragile": _review_cell(_fragile_items(data.get("review_fragile_hypothesis"), i18n)),
+        "cell_rank_grade": _rank_grade(data.get("review_rank"), stages, i18n),
+        "cell_rank_reason": _review_cell(_rank_reason(data.get("review_rank"))),
+        "cell_review_personal": _review_cell(
+            _as_list(data.get("review_personal"))
+            + [i18n["legacy_investor_prefix"] + x for x in _as_list(data.get("review_investor"))]
+        ),
     }
+    for risk in RISKS:
+        items = _status_items(risks.get(risk), i18n["risk_status"])
+        if risk == "product":
+            # Older canvases kept market research in review_problem.
+            items += [i18n["legacy_problem_prefix"] + x for x in _as_list(data.get("review_problem"))]
+        values[f"cell_risk_{risk}"] = _review_cell(items)
+    for stage in STAGES:
+        values[f"cell_stage_{stage}"] = _review_cell(_status_items(stages.get(stage), i18n["stage_status"]))
+
+    optional = [k for k in values if k.startswith(("cell_risk_", "cell_stage_", "cell_rank_")) or k == "cell_review_fragile"]
+    if canvas_type == "PostHoc":
+        # Case studies are not bets; say why the rank is missing, and leave out validation rows they did not fill.
+        values["cell_rank_grade"] = values["cell_rank_grade"] or html.escape(i18n["rank_posthoc"])
+        raw = _drop_empty_rows(raw, [k for k in optional if not values[k]])
+    for key in optional:
+        values[key] = values[key] or "-"
     rendered = inline_css(_fill(raw, values), css_src.read_text(encoding="utf-8"))
     # Obsidian / Markdown renderers treat intra-tag newlines inside <table> as line breaks (<br>)
     # or blank lines, creating a gap above cell headers. Strip whitespace between tags inside tables.
@@ -400,6 +504,8 @@ def main(argv: list[str] | None = None) -> int:
     except (ValueError, OSError) as e:
         print(f"render: {e}", file=sys.stderr)
         return 1
+    for warning in validation_warnings(data):
+        print(f"warning: {warning}", file=sys.stderr)
     md_path.parent.mkdir(parents=True, exist_ok=True)
     md_path.write_text(text, encoding="utf-8", newline="\n")
     return 0

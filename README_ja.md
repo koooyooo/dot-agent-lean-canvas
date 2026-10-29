@@ -21,11 +21,12 @@ YAML を正本として管理し、外部 CSS やプラグインに依存しな�
   - 対話や資料から仮説を埋め、ビジネスモデルの構造（課題・顧客・UVP・チャネル・収益等）を整理。
   - 地図の完成度（`status_canvas`）と本人の実行判断（`status_decision`）を分離して管理。
   - 検証の結果を伝えると、キャンバスを直し、`iteration` を上げ、判断を `Undecided` に戻して、次に脆い仮説を選び直します。
-- **二重のレビュー視点**:
-  - **課題レビュー（`review_problem`）**: 国内外の既存競合サービスと価格帯、既存の代替手段に対するユーザーの生の不満（レビュー・SNS・掲示板）で課題を裏付け。
-  - **自己レビュー（`review_personal`）**: よくある論理崩れ（課題なきソリューション、代替の欠如など）の点検と、任意のローカル評価基準（`custom-policy-{name}.md`）の適用。
-  - **最も脆い仮説（`review_fragile_hypothesis`）**: 最も脆い仮説を 1 つ特定し、数時間〜1 週間でできる具体的な検証アクションを 1 つ提案。
-  - **投資家視点（`review_investor`）**: 外部資本の観点から市場性やトラクション仮説、脆いポイントを点検。
+- **リスク基準のレビュー（Running Lean）**:
+  - **3 つのリスク（`review_risks`）**: 顧客・市場・プロダクト（課題・解決策）の各リスクに、証拠の強さ（`Untested` / `Signal` / `Supported` / `Refuted`）と一言コメントを記載。実在の競合と価格帯、ユーザーの生の不満で裏付け。
+  - **検証段階（`review_stages`）**: 課題／解決策フィット・製品／市場フィット・拡大の各段階に、状態とクリアの根拠（または残りの課題）を一言で記載。必要なリスクが `Supported` でなければ `Cleared` にできず、`render.py` が警告。
+  - **最も脆い仮説（`review_fragile_hypothesis`）**: どのリスクの仮説かを添えて 1 つ特定し、数時間〜1 週間でできる具体的な検証アクションを 1 つ提案。
+  - **ランクと総評（`review_rank`・`review_personal`）**: 見込みによる S〜D の評価と、一番弱いリスクを挙げた理由（課題／解決策フィット前の S・A には「見込み・未検証」を付記）。続けて、よくある論理崩れの点検と任意のローカル評価基準（`custom-policy-{name}.md`）を記載。
+  - レビューはキャンバスの下に、メタ情報・リスク・検証・総評（ランク／一言／所見）の 4 つの表で出力。
 - **ポータブルな Markdown 出力**:
   - 公式の 5 列構成（課題・顧客が両端、UVP が中央）を維持。
   - GitHub、Obsidian、VS Code、Typora などの Markdown ビューアーで崩れず表示できるよう、CSS プロパティをインライン展開。
@@ -56,7 +57,7 @@ YAML を正本として管理し、外部 CSS やプラグインに依存しな�
         ├── references/
         │   ├── custom-policy-template.md # ローカル評価基準（カスタムポリシー）のテンプレート
         │   ├── maintenance.md  # 保守者向け: 描画処理・ビューア互換性・検証手順
-        │   ├── review-investor.md  # 投資家視点のレビュー基準
+        │   ├── review-rank.md      # ランク（S〜D）の評価基準
         │   └── sample/         # 後追いサンプル（メルカリ、OpenAI、LinkedIn、YouTube）
         ├── scripts/
         │   ├── render.py       # YAML -> Markdown 変換スクリプト
@@ -142,7 +143,7 @@ ln -s ~/.agents/skills/docs-lean-canvas ~/.hermes/skills/custom/docs-lean-canvas
 #### カスタム評価基準（Custom Policy）の設定（任意）
 `skills/docs-lean-canvas/references/custom-policy-template.md` をコピーして `skills/docs-lean-canvas/references/custom-policy-{name}.md` を作成することで、独自の評価基準（個人開発・NoOps制約、目標収益ラインなど）を追加できます。
 - `custom-policy-template.md` 以外の `custom-policy-*.md` は `.gitignore` 対象となっており、非公開の判断基準がリポジトリに混入しません。
-- `custom-policy-{name}.md` が 1 つ存在する場合は既定で読み込まれ、`review_personal` のレビューに自動反映されます。
+- `custom-policy-{name}.md` が 1 つ存在する場合は既定で読み込まれ、`review_personal` と `review_rank` のレビューに自動反映されます。
 
 ### 2. 手動での Markdown 生成（CLI）
 

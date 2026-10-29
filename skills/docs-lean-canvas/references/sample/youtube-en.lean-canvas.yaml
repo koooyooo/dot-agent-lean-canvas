@@ -2,7 +2,7 @@ meta:
   project_name: "YouTube"
   author: "Case Study Sample (Retrospective analysis from public data. Not an official document)"
   iteration: "v1.0"
-  last_updated: "2026-09-08"
+  last_updated: "2026-10-30"
   lang: "en"
   canvas_type: "PostHoc"
   status_canvas: "-"
@@ -71,11 +71,36 @@ canvas:
     pricing: "Ad pricing based on CPM / CPV varies widely by campaign. No flat public price"
     lifetime_value_estimate: "Undecided. No public LTV figure. Derived backwards from advertiser spend and creator inventory"
 
+# Retrospective reconstruction: how each risk was actually retired, from public data (no rank)
+review_risks:
+  customer:
+    status: "Supported"
+    comment: "After the 2005 launch, embeds on MySpace and blogs pulled in viewers and creators organically. By July 2006: 100M views and 65K uploads per day (press reports)"
+  market:
+    status: "Supported"
+    comment: "Unproven at acquisition (2006), weighed down by bandwidth costs and copyright suits (Viacom, 2007). Ads matured under Google; first disclosed ad revenue was $15.1B for 2019"
+  product:
+    status: "Supported"
+    comment: "Alternatives (self-hosting, file sharing) were heavy; instant in-browser playback and open uploads were adopted. Growth in views and uploads showed retention"
+
+review_stages:
+  problem_solution_fit:
+    status: "Cleared"
+    comment: "Between the May 2005 public beta and the December launch, people sharing short clips adopted it through embeds"
+  product_market_fit:
+    status: "Cleared"
+    comment: "Product pull was clear by 2006, but market (revenue) evidence lagged until ads were established after the Google acquisition"
+  scale:
+    status: "Cleared"
+    comment: "Google acquired it for $1.65B in October 2006. The 2007 Partner Program (creator revenue share) and Content ID scaled supply and rights handling"
+
+review_fragile_hypothesis:
+  risk: "market"
+  hypothesis: "(At the time) Can ads cover surging bandwidth costs and copyright risk?"
+  experiment: "(What actually happened) Video ads and the Partner Program after the acquisition, plus Content ID to give rights holders a monetization option. The most fragile risk was market, not customer or product"
+
 review_personal:
   - "This is a post-hoc retrospective of an existing service, reconstructing boxes from actual outcomes rather than initial hypothesis validation. status_canvas and status_decision are set to '-'. Do not equate historical success with an automatic 'Go' today."
   - "Pricing and LTV figures are public estimates or undecided. Do not use as official business disclosures."
   - "Viewers are users, creators are supply, and advertisers are paying customers (multi-sided platform). Omitting viewers erases distribution; omitting advertisers eliminates revenue; omitting creators turns the platform into a pure ad network."
   - "Later developments (Shorts, Premium, YouTube TV) are excluded to focus on the core bet: UGC video streaming plus advertising."
-
-review_investor:
-  - "Educational retrospective; not the primary focus of this column. Do not project post-IPO scale or current market capitalization onto early-stage angel/seed investment criteria."

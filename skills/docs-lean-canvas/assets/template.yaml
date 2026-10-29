@@ -70,20 +70,43 @@ canvas:
     pricing: "Target pricing (e.g., $10/mo / $100/yr)"
     lifetime_value_estimate: "Estimated LTV (or expected revenue per user)"
 
-# Problem review (New). Real competitors (domestic / overseas) with pricing, and raw user complaints about existing alternatives
-review_problem:
-  - "Competitor: [Service] ([Region]) - [Price] - [Gap vs. this canvas]"
-  - "Complaint: \"[Quoted or paraphrased user voice]\" ([Source: review site / SNS / forum])"
+# Risks (New). Running Lean's three risks. status: Untested | Signal | Supported | Refuted
+# Untested: desk assumption only. Signal: indirect evidence (reviews, SNS complaints, competitor pricing).
+# Supported: direct customer evidence (interviews, pre-orders, retention). Refuted: evidence against it
+review_risks:
+  customer:
+    status: "Untested"
+    comment: "Who the early adopters are, and whether the channels actually reach them"
+  market:
+    status: "Untested"
+    comment: "Competitors with pricing, willingness to pay, revenue vs. cost"
+  product:
+    status: "Untested"
+    comment: "Raw complaints about existing alternatives, whether the solution and metrics fit the problem"
 
-# Overall personal review. See SKILL.md for common pitfalls. Do not create a checklist
-review_personal:
-  - "Comment 1"
+# Validation stages (New). status: NotStarted | InProgress | Cleared. Cleared only when the required risks are Supported
+review_stages:
+  problem_solution_fit:
+    status: "InProgress"
+    comment: "Why it is cleared, or what is left (requires customer + product Supported)"
+  product_market_fit:
+    status: "NotStarted"
+    comment: "Requires problem_solution_fit Cleared and market + product Supported"
+  scale:
+    status: "NotStarted"
+    comment: "Requires product_market_fit Cleared and market Supported. Release planning belongs to docs-prd"
 
-# Most fragile hypothesis (New). Exactly one hypothesis and one validation action doable in hours to 1 week
+# Most fragile hypothesis (New). Exactly one hypothesis from a non-Supported risk of the current stage, and one action doable in hours to 1 week
 review_fragile_hypothesis:
+  risk: "customer | market | product"
   hypothesis: "The single assumption whose failure breaks this canvas"
   experiment: "One concrete action (article/video to publish, who to ask what, which mock to show) with the signal to observe"
 
-# Investor view. Read references/review-investor.md before writing
-review_investor:
+# Rank (New). S | A | B | C | D by prospect. Read references/review-rank.md. reason names the weakest risk
+review_rank:
+  grade: "B"
+  reason: "Why this grade, naming the weakest risk"
+
+# Overall review. Common pitfalls (see SKILL.md), Go rationale, and validation log. Do not create a checklist
+review_personal:
   - "Comment 1"

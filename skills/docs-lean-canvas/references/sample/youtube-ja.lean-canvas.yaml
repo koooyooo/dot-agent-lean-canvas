@@ -2,7 +2,7 @@ meta:
   project_name: "YouTube"
   author: "教材サンプル（公開情報からの後追い。公式資料ではない）"
   iteration: "v1.0"
-  last_updated: "2026-09-08"
+  last_updated: "2026-10-30"
   canvas_type: "PostHoc"
   status_canvas: "-"
   status_decision: "-"
@@ -70,11 +70,36 @@ canvas:
     pricing: "広告単価は CPM / 視聴単価で案件により大きく異なる。公開の一律価格はない"
     lifetime_value_estimate: "未決。公開LTVはない。視聴者一人ではなく、広告主の出稿と投稿者の在庫で逆算する"
 
+# 後追いの再構成。当時どう各リスクを潰したかを公開情報から書く（ランクは付けない）
+review_risks:
+  customer:
+    status: "Supported"
+    comment: "2005年の公開後、MySpace やブログへの埋め込みで視聴者と投稿者が自然に流入。2006年7月に1日1億再生・6.5万本投稿（公開報道）"
+  market:
+    status: "Supported"
+    comment: "買収時点（2006年）は収益モデル未証明で、帯域コストと著作権訴訟（2007年 Viacom）が重荷だった。Google 傘下で広告が確立し、2019年に広告収入151億ドルを初公表"
+  product:
+    status: "Supported"
+    comment: "既存の代替（自前ホスティング、ファイル共有）は重く、ブラウザで即再生・誰でも投稿の解決策が受け入れられた。視聴と投稿の伸びが継続を裏付けた"
+
+review_stages:
+  problem_solution_fit:
+    status: "Cleared"
+    comment: "2005年5月の公開ベータから12月の正式公開までに、短いクリップを手軽に共有したい層が埋め込みで定着"
+  product_market_fit:
+    status: "Cleared"
+    comment: "2006年に再生数が急伸しプロダクトの引きは明確。ただし市場（収益）の裏付けは Google 買収後の広告確立まで遅れた"
+  scale:
+    status: "Cleared"
+    comment: "2006年10月に Google が16.5億ドルで買収。2007年の Partner Program（投稿者への収益分配）と Content ID で、供給と権利処理を広げた"
+
+review_fragile_hypothesis:
+  risk: "market"
+  hypothesis: "（当時）広告で、急増する帯域コストと著作権リスクを賄えるか"
+  experiment: "（当時の実際）買収後に動画広告と Partner Program を導入し、権利者とは Content ID で収益化の選択肢を用意した。最後まで脆かったのは顧客でもプロダクトでもなく市場だった"
+
 review_personal:
   - "既存サービスの後追いである。初期の仮説検証ではなく、結果からマスを埋めている。status_canvas / status_decision は -。当時の成功を今の Go にしない"
   - "数値（広告単価、LTV）は公開情報の近似または未決。公式の事業資料として使わない"
   - "視聴者はユーザー、投稿者は供給、広告主が払う顧客。視聴者だけ書くと収益が消える。広告主だけ書くとプロダクトが広告枠になる"
   - "後年の Shorts、Premium、TV はこのキャンバスの核（UGC動画と広告）には含めない"
-
-review_investor:
-  - "教材の後追いであり、この欄の主にしない。後年の規模や時価を当時の投資判断にしない"

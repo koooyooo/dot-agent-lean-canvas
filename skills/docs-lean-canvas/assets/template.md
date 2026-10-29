@@ -103,6 +103,8 @@
   </tr>
 </table>
 
+### メタ情報
+
 <table class="lc-review" border="1" cellspacing="0" cellpadding="8" style="display:table;width:100%;border-collapse:collapse;">
   <tr>
     <td>種別</td>
@@ -116,20 +118,59 @@
     <td>決定</td>
     <td>{{status_decision}}</td>
   </tr>
+</table>
+
+### リスク
+
+<table class="lc-review" border="1" cellspacing="0" cellpadding="8" style="display:table;width:100%;border-collapse:collapse;">
   <tr>
-    <td>レビュー: 課題</td>
-    <td>{{cell_review_problem}}</td>
+    <td>顧客</td>
+    <td>{{cell_risk_customer}}</td>
   </tr>
   <tr>
-    <td>レビュー: 総評</td>
-    <td>{{cell_review_personal}}</td>
+    <td>市場</td>
+    <td>{{cell_risk_market}}</td>
   </tr>
   <tr>
-    <td>レビュー: 脆い仮説</td>
+    <td>プロダクト（課題・解決策）</td>
+    <td>{{cell_risk_product}}</td>
+  </tr>
+</table>
+
+### 検証
+
+<table class="lc-review" border="1" cellspacing="0" cellpadding="8" style="display:table;width:100%;border-collapse:collapse;">
+  <tr>
+    <td>課題／解決策フィット</td>
+    <td>{{cell_stage_problem_solution_fit}}</td>
+  </tr>
+  <tr>
+    <td>製品／市場フィット</td>
+    <td>{{cell_stage_product_market_fit}}</td>
+  </tr>
+  <tr>
+    <td>拡大</td>
+    <td>{{cell_stage_scale}}</td>
+  </tr>
+  <tr>
+    <td>脆い仮説</td>
     <td>{{cell_review_fragile}}</td>
   </tr>
+</table>
+
+### 総評
+
+<table class="lc-review" border="1" cellspacing="0" cellpadding="8" style="display:table;width:100%;border-collapse:collapse;">
   <tr>
-    <td>投資家視点</td>
-    <td>{{cell_review_investor}}</td>
+    <td>ランク</td>
+    <td>{{cell_rank_grade}}</td>
+  </tr>
+  <tr>
+    <td>一言</td>
+    <td>{{cell_rank_reason}}</td>
+  </tr>
+  <tr>
+    <td>所見</td>
+    <td>{{cell_review_personal}}</td>
   </tr>
 </table>

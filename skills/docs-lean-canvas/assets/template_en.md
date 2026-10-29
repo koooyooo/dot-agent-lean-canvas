@@ -103,6 +103,8 @@
   </tr>
 </table>
 
+### Meta
+
 <table class="lc-review" border="1" cellspacing="0" cellpadding="8" style="display:table;width:100%;border-collapse:collapse;">
   <tr>
     <td>Type</td>
@@ -116,20 +118,59 @@
     <td>Decision</td>
     <td>{{status_decision}}</td>
   </tr>
+</table>
+
+### Risks
+
+<table class="lc-review" border="1" cellspacing="0" cellpadding="8" style="display:table;width:100%;border-collapse:collapse;">
   <tr>
-    <td>Review: Problem</td>
-    <td>{{cell_review_problem}}</td>
+    <td>Customer</td>
+    <td>{{cell_risk_customer}}</td>
   </tr>
   <tr>
-    <td>Review: Overall</td>
-    <td>{{cell_review_personal}}</td>
+    <td>Market</td>
+    <td>{{cell_risk_market}}</td>
   </tr>
   <tr>
-    <td>Review: Fragile Hypothesis</td>
+    <td>Product (Problem / Solution)</td>
+    <td>{{cell_risk_product}}</td>
+  </tr>
+</table>
+
+### Validation
+
+<table class="lc-review" border="1" cellspacing="0" cellpadding="8" style="display:table;width:100%;border-collapse:collapse;">
+  <tr>
+    <td>Problem / Solution Fit</td>
+    <td>{{cell_stage_problem_solution_fit}}</td>
+  </tr>
+  <tr>
+    <td>Product / Market Fit</td>
+    <td>{{cell_stage_product_market_fit}}</td>
+  </tr>
+  <tr>
+    <td>Scale</td>
+    <td>{{cell_stage_scale}}</td>
+  </tr>
+  <tr>
+    <td>Fragile Hypothesis</td>
     <td>{{cell_review_fragile}}</td>
   </tr>
+</table>
+
+### Overall Review
+
+<table class="lc-review" border="1" cellspacing="0" cellpadding="8" style="display:table;width:100%;border-collapse:collapse;">
   <tr>
-    <td>Investor View</td>
-    <td>{{cell_review_investor}}</td>
+    <td>Rank</td>
+    <td>{{cell_rank_grade}}</td>
+  </tr>
+  <tr>
+    <td>Reason</td>
+    <td>{{cell_rank_reason}}</td>
+  </tr>
+  <tr>
+    <td>Notes</td>
+    <td>{{cell_review_personal}}</td>
   </tr>
 </table>

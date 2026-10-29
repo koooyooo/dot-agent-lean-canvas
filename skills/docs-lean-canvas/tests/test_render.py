@@ -26,23 +26,101 @@ class RenderTests(unittest.TestCase):
         for lang in ['ja', 'en']:
             out = render.render_md({'review_personal': ['One', 'Two']}, lang=lang)
             tables = re.findall(r'<table\b.*?</table>', out, re.S)
-            self.assertEqual(len(tables), 2)
+            self.assertEqual(len(tables), 5)
             for table in tables:
                 self.assertNotIn('\n', table)
 
 
-    def test_problem_and_fragile_hypothesis_review_rows(self):
+    def test_risk_stage_fragile_and_rank_rows(self):
         data = {
-            'review_problem': ['Competitor: X - $10/mo'],
-            'review_fragile_hypothesis': {'hypothesis': 'Users pay', 'experiment': 'Ask 5 users'},
+            'meta': {'canvas_type': 'New'},
+            'review_risks': {
+                'customer': {'status': 'Signal', 'comment': 'No channel yet'},
+                'market': {'status': 'Untested', 'comment': 'X is $12/mo'},
+                'product': {'status': 'Supported', 'comment': '5 interviews'},
+            },
+            'review_stages': {
+                'problem_solution_fit': {'status': 'InProgress', 'comment': 'Customer is Signal'},
+                'product_market_fit': {'status': 'NotStarted', 'comment': 'After PSF'},
+                'scale': {'status': 'NotStarted'},
+            },
+            'review_fragile_hypothesis': {'risk': 'customer', 'hypothesis': 'Users pay', 'experiment': 'Ask 5 users'},
+            'review_rank': {'grade': 'A', 'reason': 'Reach is the weakest'},
+            'review_personal': ['Pitfall note'],
         }
-        for lang, labels in [('ja', ['レビュー: 課題', 'レビュー: 総評', 'レビュー: 脆い仮説', '仮説: Users pay', '検証: Ask 5 users']),
-                             ('en', ['Review: Problem', 'Review: Overall', 'Review: Fragile Hypothesis', 'Hypothesis: Users pay', 'Experiment: Ask 5 users'])]:
-            out = render.render_md(data, lang=lang)
-            for label in labels + ['Competitor: X - $10/mo']:
-                self.assertIn(label, out)
-            self.assertLess(out.index(labels[0]), out.index(labels[1]))
-            self.assertLess(out.index(labels[1]), out.index(labels[2]))
+        cases = [
+            ('ja', ['### メタ情報', '種別', '### リスク', '顧客', '[兆候あり] No channel yet', '市場', '[未検証] X is $12/mo',
+                    'プロダクト（課題・解決策）', '[裏付けあり] 5 interviews',
+                    '### 検証', '課題／解決策フィット', '[検証中] Customer is Signal', '製品／市場フィット', '[未着手] After PSF',
+                    '拡大', '脆い仮説', '軸: 顧客', '仮説: Users pay', '検証: Ask 5 users',
+                    '### 総評', 'ランク', 'A（見込み・未検証）', '一言', 'Reach is the weakest', '所見', 'Pitfall note']),
+            ('en', ['### Meta', 'Type', '### Risks', 'Customer', '[Signal] No channel yet', 'Market', '[Untested] X is $12/mo',
+                    'Product (Problem / Solution)', '[Supported] 5 interviews',
+                    '### Validation', 'Problem / Solution Fit', '[In progress] Customer is Signal', 'Product / Market Fit',
+                    '[Not started] After PSF', 'Scale', 'Fragile Hypothesis', 'Axis: Customer',
+                    'Hypothesis: Users pay', 'Experiment: Ask 5 users',
+                    '### Overall Review', 'Rank', 'A (prospect, unverified)', 'Reason', 'Reach is the weakest',
+                    'Notes', 'Pitfall note']),
+        ]
+        for lang, labels in cases:
+            with self.subTest(lang=lang):
+                out = render.render_md(data, lang=lang)
+                out = out[out.index('### '):]
+                positions = [out.index(label) for label in labels]
+                self.assertEqual(positions, sorted(positions))
+                self.assertNotIn('Investor', out)
+                self.assertNotIn('投資家', out)
+
+    def test_rank_is_not_marked_unverified_once_problem_solution_fit_is_cleared(self):
+        for grade, stage, marked in [('A', 'Cleared', False), ('S', 'InProgress', True), ('B', 'InProgress', False)]:
+            with self.subTest(grade=grade, stage=stage):
+                out = render.render_md({'review_rank': {'grade': grade},
+                                        'review_stages': {'problem_solution_fit': {'status': stage}}}, lang='en')
+                self.assertIn(f'>{grade}', out)
+                self.assertEqual('(prospect, unverified)' in out, marked)
+
+    def test_cleared_stage_without_supported_risks_warns(self):
+        data = {
+            'review_risks': {'customer': {'status': 'Supported'}, 'product': {'status': 'Signal'},
+                             'market': {'status': 'Supported'}},
+            'review_stages': {'problem_solution_fit': {'status': 'Cleared'},
+                              'scale': {'status': 'Cleared'}},
+        }
+        warnings = render.validation_warnings(data)
+        self.assertTrue(any('problem_solution_fit' in w and 'product' in w for w in warnings), warnings)
+        self.assertTrue(any('scale' in w and 'product_market_fit' in w for w in warnings), warnings)
+        data['review_risks']['product']['status'] = 'Supported'
+        data['review_stages'].pop('scale')
+        self.assertEqual(render.validation_warnings(data), [])
+        with tempfile.TemporaryDirectory() as tmp:
+            src = Path(tmp) / 'warn.lean-canvas.yaml'
+            src.write_text('review_risks:\n  customer:\n    status: Untested\nreview_stages:\n'
+                           '  problem_solution_fit:\n    status: Cleared\n', encoding='utf-8')
+            result = subprocess.run([sys.executable, str(ROOT / 'scripts/render.py'), str(src)],
+                                    capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn('warning: problem_solution_fit is Cleared', result.stderr)
+            self.assertTrue(src.with_suffix('.md').exists())
+
+    def test_legacy_problem_and_investor_reviews_are_still_shown(self):
+        data = {'review_problem': ['Competitor: X - $10/mo'], 'review_investor': ['Too small for VC'],
+                'review_personal': ['Note']}
+        out = render.render_md(data, lang='ja')
+        self.assertIn('課題調査: Competitor: X - $10/mo', out)
+        self.assertLess(out.index('プロダクト（課題・解決策）'), out.index('課題調査: '))
+        self.assertLess(out.index('Note'), out.index('投資家視点: Too small for VC'))
+
+    def test_new_canvas_keeps_empty_rows_but_posthoc_drops_them(self):
+        new = render.render_md({'meta': {'canvas_type': 'New'}}, lang='en')
+        for label in ['### Risks', '### Validation', 'Stage: ', 'Fragile Hypothesis', '>Rank<', '>Reason<']:
+            self.assertEqual(label in new, label != 'Stage: ', label)
+        posthoc = render.render_md({'meta': {'canvas_type': 'PostHoc'}, 'review_personal': ['Note'],
+                                    'review_risks': {'market': {'status': 'Signal', 'comment': 'Ads'}}}, lang='en')
+        for label in ['>Customer<', '>Product (Problem', '### Validation', 'Fragile Hypothesis', '>Reason<']:
+            self.assertNotIn(label, posthoc)
+        for label in ['### Meta', '### Risks', '[Signal] Ads', '### Overall Review', '>Rank<',
+                      '- (not ranked for post-hoc)', '>Notes<']:
+            self.assertIn(label, posthoc)
 
     def test_cascade_specificity_source_order_inline_and_important(self):
         text = '<div class="outer"><b class="item" style="color: black; padding: 9px !important; margin: 4px">x</b></div>'
@@ -129,7 +207,7 @@ class RenderTests(unittest.TestCase):
                 self.assertIn('&lt;script&gt;alert(1)&lt;/script&gt; &amp; text', out)
                 nodes = Elements(out).nodes
                 tables = [a for t, a in nodes if t == 'table']
-                self.assertEqual(len(tables), 2)
+                self.assertEqual(len(tables), 5)
                 self.assertIn('table-layout: fixed !important', tables[0]['style'])
                 self.assertIn('background: #ffffff', tables[0]['style'])
                 cells = [a for t, a in nodes if t == 'td']

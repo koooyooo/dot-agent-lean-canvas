@@ -6,7 +6,7 @@ All `references/custom-policy-*.md` files except `custom-policy-template.md` are
 
 ## How This File Is Used
 
-- Evaluated alongside "Common Pitfalls" when writing `review_personal` for `New` canvases. Validation-experiment criteria (section 4 below) apply to `review_fragile_hypothesis`.
+- Evaluated alongside "Common Pitfalls" when writing `review_personal` for `New` canvases. Fit with your strategy (sections 1-3 below) also decides `review_rank` (D for "does not fit the strategy"). Validation-experiment criteria (section 4 below) apply to `review_fragile_hypothesis`, and what counts as `Supported` applies to `review_risks`.
 - Do not add custom checklist fields to the YAML schema; record only triggered observations and concrete recommendations in `review_personal` / `review_fragile_hypothesis`.
 - Skip this policy in `PostHoc` mode (retrospective case studies).
 
@@ -27,3 +27,4 @@ All `references/custom-policy-*.md` files except `custom-policy-template.md` are
 ### 4. Next Minimum Validation Experiment
 - Which single assumption on this canvas is the most fragile right now?
 - What is the smallest experiment (completable within a few hours to a week before full implementation) to validate or falsify that assumption with real user behavior?
+- What evidence raises a risk to `Supported` (e.g., 5 problem interviews with early adopters, 3 pre-orders, 40% week-4 retention)?

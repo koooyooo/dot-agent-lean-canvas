@@ -33,68 +33,108 @@ Confirm the following:
 
 1. Read [assets/template.yaml](assets/template.yaml).
 2. Save `{slug}.lean-canvas.yaml`. When starting a new canvas, do not overwrite an existing file; when continuing the same canvas, update it in place. Check `canvas_type` (`New` for your own bet, `PostHoc` for deconstructing/studying an existing product). If in progress, set `status_canvas: Draft` or `Building`. If undecided, set `status_decision: Undecided`.
-3. Inquire about missing details and update the YAML. For `New` canvases, do not rely solely on unverified assumptions for `problem` and `existing_alternatives`: follow "Problem Review" below and reflect actual market options in `existing_alternatives`.
-4. Write the reviews. For `New` canvases, write `review_problem` per "Problem Review" and `review_fragile_hypothesis` per "Most Fragile Hypothesis" below. The overall review (the table's "Review: Overall" row) evaluates against the "Common Pitfalls" below, plus any active custom policy (`references/custom-policy-{name}.md`, excluding [references/custom-policy-template.md](references/custom-policy-template.md)), and goes into `review_personal`. The investor perspective must always be written after reading [references/review-investor.md](references/review-investor.md) and placed in `review_investor`. If users will not feel value, won't retain, or the business is unlikely to be viable, report this honestly in the overall review. If `canvas_type: New`, gaps should be marked as "Undecided" ("未決" in Japanese) with the rationale. If `PostHoc`, it is a reconstruction from known outcomes; do not turn past success into a modern `Go`. In this case, neither common pitfalls, custom policies, nor the investor perspective should be the primary focus of either section, and `review_problem` / `review_fragile_hypothesis` may be omitted.
+3. Inquire about missing details and update the YAML. For `New` canvases, do not rely solely on unverified assumptions for `problem` and `existing_alternatives`: follow "Risk Review" below and reflect actual market options in `existing_alternatives`.
+4. Write the reviews for `New` canvases in this order: `review_risks` per "Risk Review", `review_stages` per "Validation Stages", `review_fragile_hypothesis` per "Most Fragile Hypothesis", `review_rank` after reading [references/review-rank.md](references/review-rank.md), then `review_personal` (the "Notes" row of the Overall Review table) per "Common Pitfalls" below plus any active custom policy (`references/custom-policy-{name}.md`, excluding [references/custom-policy-template.md](references/custom-policy-template.md)). If users will not feel value, won't retain, or the business is unlikely to be viable, report this honestly in the overall review. If `canvas_type: New`, gaps should be marked as "Undecided" ("未決" in Japanese) with the rationale. If `PostHoc`, it is a reconstruction from known outcomes; do not turn past success into a modern `Go`. In this case, always omit `review_rank` (the renderer shows "-" with the reason in the Rank row). `review_risks`, `review_stages`, and `review_fragile_hypothesis` are optional: either omit them (the renderer drops their empty rows, and any table left empty), or fill them as a retrospective of how each risk was actually retired, citing public facts with dates (see the [YouTube](references/sample/youtube-ja.lean-canvas.yaml) sample). Do not make common pitfalls or custom policies the primary focus of `review_personal`.
 5. When `status_canvas: Done` is reached, or when output is requested, do not construct the table by hand. Run [scripts/render.py](scripts/render.py) in the skill directory using the first interpreter that succeeds in the following order (on Windows, try `py -3` first). The argument is the YAML file. If unspecified, it outputs `{slug}.lean-canvas.md` with the same name. The output is Markdown with self-contained HTML tables whose styles are inlined. The condition for Markdown output is `status_canvas`, not `status_decision`.
    - `py -3`
    - `python3`
    - `python`
    - Example (run via `terminal` with skill directory as working directory): `python3 scripts/render.py /path/to/{slug}.lean-canvas.yaml`
    - If none exist, or if the script fails, report the reason and preserve the YAML without corrupting any existing derivative Markdown. Only when manual output is strictly necessary, use the same 5-column structure from the language template and inline the relevant CSS declarations into the `style` attributes. Do not revert to external CSS or `<style>` blocks. If inlining cannot be verified, explicitly report that it is an unstyled fallback output and do not claim it is properly styled.
+   - The script prints `warning:` lines to stderr when a stage is `Cleared` without its required risks `Supported` (see "Validation Stages"). Fix the YAML rather than ignoring them.
 6. When the user reports the result of a validation experiment, follow "Iterating After Validation" below.
 
 ## Writing Guidelines
 
 - Do not leave YAML placeholder text in the deliverables. For unknown boxes, write "Undecided" ("未決" in Japanese) with the rationale rather than leaving them blank.
-- `status_canvas` indicates whether it can be read as a coherent map (`Draft` / `Building` / `Done`). `status_decision` indicates whether to pursue it now after reviewing the map (`Undecided` / `Go` / `NoGo` / `Parked`). It is not a hypothesis-validated flag. It is a personal decision, not the conclusion of the investor section. `Parked` means not doing it right now. When changing direction, revise the canvas, increment `iteration`, and reset decision to `Undecided`.
-- When `status_decision: Go`, leave a single line in the table's "Review: Overall" row (`review_personal`) explaining what evidence prompted the Go (e.g., still a hypothesis, user feedback, personal constraints).
+- `status_canvas` indicates whether it can be read as a coherent map (`Draft` / `Building` / `Done`). `status_decision` indicates whether to pursue it now after reviewing the map (`Undecided` / `Go` / `NoGo` / `Parked`). It is not a hypothesis-validated flag (that is `review_stages`), and it is a personal decision, not the evaluator's `review_rank`. `Parked` means not doing it right now. When changing direction, revise the canvas, increment `iteration`, and reset decision to `Undecided`.
+- When `status_decision: Go`, leave a single line in `review_personal` (the "Notes" row of the Overall Review table) explaining what evidence prompted the Go (e.g., still a hypothesis, user feedback, personal constraints).
 - In `PostHoc` mode where you are not betting on this canvas itself (case studies / deconstructions), set `status_canvas` and `status_decision` to `-`. Even if all boxes are filled, it is not an investment decision; do not set `Go`.
-- Type, Canvas Status, Decision, Review: Problem, Review: Overall, Review: Fragile Hypothesis, and Investor View are placed in the table below, not inside the canvas table. Do not nest tables. Do not create blank cells or 3-column layouts.
+- Below the canvas table, the renderer outputs four separate two-column tables: Meta (Type, Canvas Status, Decision), Risks (customer, market, product), Validation (the three stages and Fragile Hypothesis), and Overall Review (Rank, Reason, Notes). Do not put these inside the canvas table. Do not nest tables. Do not create blank cells or 3-column layouts.
+- Older canvases may contain `review_problem` or `review_investor`. The renderer still shows them (in the product risk row and at the end of the overall review), but when updating such a canvas, move their content into `review_risks` / `review_rank` / `review_personal` and remove the old fields.
 - When changing the table layout, CSS, templates, or scripts, or when investigating display issues in a Markdown viewer, read [references/maintenance.md](references/maintenance.md) first. It is not needed for creating or updating a canvas.
 - Arrays, metrics, costs, revenue, and UVP in YAML are formatted as `<ul>` inside cells. UVP consists of two items: headline and "Concept: high_level_concept" (or "例え: high_level_concept" in Japanese; the script outputs them this way).
 - The UVP headline must be a promise that resonates with the customer, not a summary of feature lists.
 - Retrospective examples (not official views): [Mercari](references/sample/mercari-ja.lean-canvas.yaml), [YouTube](references/sample/youtube-ja.lean-canvas.yaml), [LinkedIn](references/sample/linkedin-ja.lean-canvas.yaml). Do not use these as benchmarks for evaluation criteria.
 - Match the user's language. If the user interacts in Japanese, write the canvas in Japanese (defaulting to `lang: ja`). When outputting in English, specify `meta.lang: en` in the YAML. `render.py` automatically switches to the English template ([assets/template_en.md](assets/template_en.md)) and English labels (Problem, Acquisition:, Fixed:, etc.) (can also be specified via CLI option `--lang en`).
 
-## Problem Review (`review_problem`)
+## Risk Review (`review_risks`)
 
-For `New` canvases, ground the problem and existing alternatives in the real market rather than assumptions. When web search is available, use it; otherwise mark the items as unverified with the rationale.
+For `New` canvases, write one `status` and one-line `comment` for each of Running Lean's three risks. Do not add sub-items.
 
-- Existing competing services, both domestic and overseas, with their price ranges (e.g., "Competitor: X (US) - $12/mo - lacks Y").
-- Raw user complaints about existing alternatives, from review sites, SNS, and forums (quote or paraphrase, and name the source type; include URLs when available).
-- Close with one line on what the evidence implies for `top_3_problems` and `existing_alternatives` (confirmed, needs revision, or not found). If no complaints can be found, say so; that itself is a signal the problem may be weak.
+| Risk | Central question | Boxes |
+|---|---|---|
+| `customer` | Who exactly is the customer, and can we reach them? | Customer Segments, Channels |
+| `market` | Does it hold as a business: can it win against competitors, with revenue covering costs? | UVP, Unfair Advantage, Revenue Streams, Cost Structure |
+| `product` | Did we frame the right problem, and define the minimum solution for it? | Problem, Solution, Key Metrics |
+
+Status reflects the strength of evidence, not optimism:
+
+- `Untested`: desk assumption only (the default).
+- `Signal`: indirect evidence such as raw complaints on review sites, SNS, and forums, or competitor pricing.
+- `Supported`: direct evidence from customers, such as interviews, pre-orders, payments, or retention.
+- `Refuted`: evidence against the hypothesis; usually prompts a pivot.
+
+Ground the risks in the real market rather than assumptions. When web search is available, use it; otherwise state in the comment that it is unverified.
+
+- `market`: name existing competitors, both domestic and overseas, with price ranges (e.g., "Competitor: X (US) - $12/mo - lacks Y").
+- `product`: cite raw user complaints about existing alternatives, naming the source type (include URLs when available), and say whether `top_3_problems` / `existing_alternatives` are confirmed, need revision, or found nothing. If no complaints can be found, say so; that itself is a signal the problem may be weak.
+- `customer`: say whether early adopters are concrete enough to contact, and whether a channel actually reaches them.
+- Desk research alone can raise a risk to `Signal`, never to `Supported`.
+- The comment states what the status rests on, or what is missing. Keep it to one line; details belong in the canvas boxes.
+
+## Validation Stages (`review_stages`)
+
+For `New` canvases, write one `status` (`NotStarted` / `InProgress` / `Cleared`) and one-line `comment` for each stage. The comment says why the stage is cleared, or what is left.
+
+| Stage | Question | Cleared only when |
+|---|---|---|
+| `problem_solution_fit` | Is the problem worth solving, and does the solution address it? | `customer` and `product` are `Supported` |
+| `product_market_fit` | Have we built something people want, and can it scale as a business? | `problem_solution_fit` is `Cleared`, and `market` and `product` (including retention) are `Supported` |
+| `scale` | Is the established model ready to grow? | `product_market_fit` is `Cleared`, and `market` (unit economics, scalable acquisition) is `Supported` |
+
+- A new canvas usually starts at `problem_solution_fit: InProgress`, with later stages `NotStarted`.
+- Advance a stage only with evidence; never because the boxes are filled.
+- Focus follows the current stage: during `problem_solution_fit`, customer and product risks matter most, and an `Untested` market risk is not a pitfall as long as it is stated as a hypothesis.
+- Once `scale` is in progress, cross-functional release planning belongs in `docs-prd` (google style).
 
 ## Most Fragile Hypothesis (`review_fragile_hypothesis`)
 
 For `New` canvases, identify exactly one hypothesis and one validation action. Do not list several.
 
+- `risk`: the axis (`customer` / `market` / `product`) the hypothesis belongs to. Pick it from the risks that block the current `InProgress` stage and are not yet `Supported`.
 - `hypothesis`: the single assumption whose failure would break this canvas most (often the problem's severity, willingness to pay, or the initial channel).
 - `experiment`: one concrete action completable within a few hours to one week, before implementation. Specify what to do and the signal to observe, e.g., which article or video to publish and what reaction counts as a pass, whom to ask what, or which mock or LP to show.
-- If a custom policy defines validation criteria (e.g., time budget), apply them here.
+- If a custom policy defines validation criteria (e.g., time budget, what counts as `Supported`), apply them here and in `review_risks`.
+
+## Rank (`review_rank`)
+
+For `New` canvases, write `grade` (`S` / `A` / `B` / `C` / `D`, by prospect) and a one-line `reason` that names the weakest risk, after reading [references/review-rank.md](references/review-rank.md). The renderer shows `grade` and `reason` as separate "Rank" and "Reason" rows in the Overall Review table.
 
 ## Iterating After Validation
 
 When the user reports the result of the experiment in `review_fragile_hypothesis` (or any other new evidence), close the loop in the same YAML file. Do not add new fields to the YAML schema.
 
 1. Revise the affected boxes (e.g., `problem`, `customer_segments`, `channels`, `revenue_streams`) to reflect the evidence. If the hypothesis held, keep the boxes and note that it is now supported by evidence.
-2. Increment `iteration` (e.g., `v1.0` -> `v1.1`; use the next major version for a pivot) and update `last_updated`.
-3. Reset `status_decision` to `Undecided`, since the decision was made on the previous map.
-4. Add one line to `review_personal` summarizing the experiment, the observed signal, and what changed (e.g., "v1.1: Asked 5 users; 4 already pay for X -> willingness to pay supported").
-5. Choose the next most fragile hypothesis and rewrite `review_fragile_hypothesis` with a new experiment. Do not repeat a hypothesis that has already been tested unless the evidence was inconclusive; if so, say so and design a sharper experiment.
-6. Re-render the Markdown if it already exists or when `status_canvas: Done`.
+2. Update the tested risk's `status` and `comment` in `review_risks` (e.g., `Signal` -> `Supported`, or `Refuted`). Then re-check `review_stages`: mark a stage `Cleared` only when its required risks are now `Supported`, and set the next stage to `InProgress`. Revisit `review_rank` if the prospect changed.
+3. Increment `iteration` (e.g., `v1.0` -> `v1.1`; use the next major version for a pivot) and update `last_updated`.
+4. Reset `status_decision` to `Undecided`, since the decision was made on the previous map.
+5. Add one line to `review_personal` summarizing the experiment, the observed signal, and what changed (e.g., "v1.1: Asked 5 users; 4 already pay for X -> willingness to pay supported").
+6. Choose the next most fragile hypothesis and rewrite `review_fragile_hypothesis` with a new experiment. Do not repeat a hypothesis that has already been tested unless the evidence was inconclusive; if so, say so and design a sharper experiment.
+7. Re-render the Markdown if it already exists or when `status_canvas: Done`.
 
-## Common Pitfalls (for Review: Overall)
+## Common Pitfalls (for Overall Review)
 
-This is neither a pass/fail judgment nor `status_decision`. Do not create a checklist in YAML. Output observations solely to `review_personal`. Do not create a separate file for investor criteria; this section is the canonical source.
+This is neither a pass/fail judgment nor `status_decision`. Do not create a checklist in YAML. Output observations to `review_personal`, and reflect them in the comment of the matching risk when they weaken it. This section is the canonical source for pitfalls.
 
-What to check:
+What to check (the matching risk in parentheses):
 
-- Solution is detailed before problem is understood
-- Existing alternatives are empty or merely "not doing anything in particular"
-- Target customers are "everyone / all enterprises", with no early adopters
-- UVP is a feature list or generic slogan, not a customer-facing promise
-- Channels are just "SNS / word-of-mouth", lacking an initial acquisition path
-- Problem owner and paying customer differ, but are not distinguished on the canvas
+- Solution is detailed before problem is understood (product)
+- Existing alternatives are empty or merely "not doing anything in particular" (product)
+- Target customers are "everyone / all enterprises", with no early adopters (customer)
+- UVP is a feature list or generic slogan, not a customer-facing promise (market)
+- Channels are just "SNS / word-of-mouth", lacking an initial acquisition path (customer)
+- Problem owner and paying customer differ, but are not distinguished on the canvas (customer)
 
 How to report:
 
@@ -110,4 +150,4 @@ Users may place local evaluation criteria in `references/custom-policy-{name}.md
 - Before writing `review_personal` for a `New` canvas, check for `references/custom-policy-*.md` excluding `custom-policy-template.md`.
 - If a single custom policy file exists, read and apply it by default.
 - If multiple custom policy files exist, use the one specified by the user or ask which policy (`{name}`) to apply.
-- Record observations in `review_personal`, and validation-experiment criteria in `review_fragile_hypothesis`, without adding custom fields to the YAML schema.
+- Record observations in `review_personal`, validation-experiment criteria in `review_fragile_hypothesis` and `review_risks`, and strategic fit in `review_rank` (it decides D for "does not fit the strategy"), without adding custom fields to the YAML schema.
